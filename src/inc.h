@@ -13,7 +13,7 @@
 
 
 #define _APP_BLE_DATA_BUFFER_LEN_           2048
-#define _APP_BLE_SCAN_DURATION_S_           10
+#define _APP_BLE_SCAN_DURATION_S_           5
 #define _APP_BLE_SCAN_TIMEOUT_S(n)          (n * 100)
 #define _APP_BLE_SCAN_RESULT_MAX_LEN_       100
 #define _APP_BLE_LOGGER_NAME_LEN_		    25

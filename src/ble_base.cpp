@@ -13,6 +13,7 @@ void ble_clr_data_buf()
 void ble_scan_for_loggers()
 {
     uint8_t t = _APP_BLE_SCAN_DURATION_S_;
+    l_i_("\n\n\n");
     l_i_("[ BLE ] scanning for devices during %d seconds...", t);
     BLE.setScanTimeout(_APP_BLE_SCAN_TIMEOUT_S(t));
     BleScanResult s_r[_APP_BLE_SCAN_RESULT_MAX_LEN_];
@@ -38,19 +39,19 @@ void ble_scan_for_loggers()
 static void _on_data_rx(const uint8_t* data, size_t len, const BlePeerDevice& peer, void* context)
 {
 	char s[_APP_BLE_NOTIFICATION_LEN_] = {0};
-	//assert(len <= _APP_BLE_NOTIFICATION_LEN_);
-	//memcpy(s, data, len);
-    // l_i_("[ BLE ] -> notif len %d, data %s", len, s);
-    //assert(ble_data_i + len <= _APP_BLE_DATA_BUFFER_LEN_);
-    //memcpy(&ble_data[ble_data_i], data, len);
-    //ble_data_i += len;
+	assert(len <= _APP_BLE_NOTIFICATION_LEN_);
+	memcpy(s, data, len);
+     l_i_("[ BLE ] incoming notif -> data %s (len %d)", s, len);
+    assert(ble_data_i + len <= _APP_BLE_DATA_BUFFER_LEN_);
+    memcpy(&ble_data[ble_data_i], data, len);
+    ble_data_i += len;
 }
 
 
 
 uint8_t ble_interact_optode_mini(const char * mac)
 {
-    BleAddress _a = BleAddress(mac);
+    BleAddress _a = BleAddress(mac, BleAddressType::PUBLIC);
     BlePeerDevice _p = BLE.connect(_a);
 
 
@@ -58,16 +59,21 @@ uint8_t ble_interact_optode_mini(const char * mac)
     {
         l_i_("[ BLE ] connected to BLE optode mini, mac = %s", mac);
         c_r.onDataReceived(_on_data_rx, NULL);
-        //const char * UUID_R = "f0001132-0451-4000-b000-000000000000";
-        //const char * UUID_W = "f0001131-0451-4000-b000-000000000000";
-        //_p.getCharacteristicByUUID(c_r, BleUuid(UUID_R));
-        //_p.getCharacteristicByUUID(c_w, BleUuid(UUID_W));
+        const char * UUID_R = "2324";
+        const char * UUID_W = "2325";
+        _p.getCharacteristicByUUID(c_r, BleUuid(UUID_R));
+        _p.getCharacteristicByUUID(c_w, BleUuid(UUID_W));
 
-        delay(5000);
+
+        c_w.setValue("L");
+        delay(100);
+        uint8_t ans[10] = {0};
+        c_r.getValue(ans, 10);
+        l_i_("[ BLE ] answer read -> %s", ans);
 
 
         BLE.disconnect(_p);
-        l_i_("[ BLE ] disconnected optode mini, mac = %s", mac);
+        l_i_("[ BLE ] disconnected BLE optode mini, mac = %s", mac);
         return 0;
     }
 

@@ -41,7 +41,7 @@ static void _on_data_rx(const uint8_t* data, size_t len, const BlePeerDevice& pe
 	char s[_APP_BLE_NOTIFICATION_LEN_] = {0};
 	assert(len <= _APP_BLE_NOTIFICATION_LEN_);
 	memcpy(s, data, len);
-     l_i_("[ BLE ] incoming notif -> data %s (len %d)", s, len);
+    l_i_("[ BLE ] in_notif -> data %s (len %d)", s, len);
     assert(ble_data_i + len <= _APP_BLE_DATA_BUFFER_LEN_);
     memcpy(&ble_data[ble_data_i], data, len);
     ble_data_i += len;
@@ -69,7 +69,7 @@ uint8_t ble_interact_optode_mini(const char * mac)
         delay(100);
         uint8_t ans[10] = {0};
         c_r.getValue(ans, 10);
-        l_i_("[ BLE ] answer read -> %s", ans);
+        l_i_("[ BLE ] r_ans -> %s", ans);
 
 
         BLE.disconnect(_p);

@@ -22,14 +22,46 @@
 
 
 
+#define _dW_  digitalWrite
+#define _dR_  digitalRead
 
 
+
+// -----------
+// IN pins
+// -----------
+
+#define PIN_MOTOR_LIMIT_LEFT_IN             12  /* closer to motor */
+#define PIN_MOTOR_LIMIT_RIGHT_IN            13
+// #define PIN_ADC_MOTOR_IN                    A11
+// #define PIN_ADC_BATTERY_IN                  A10
+
+
+
+// -----------
+// OUT pins
+// -----------
+
+#define PIN_MOTOR_EN_OUT        D4
+#define PIN_MOTOR_MS1_OUT       D5
+#define PIN_MOTOR_MS2_OUT       D6
+#define PIN_MOTOR_STEP_OUT      D7
+#define PIN_MOTOR_DIR_OUT       D8
+// #define PIN_LED_STRIP_OUT                   11
+
+
+
+
+// -----------
+// includes
+// -----------
 
 #include "Particle.h"
 #include "ble.h"
 #include <string.h>
 #include <stdint.h>
 #include "ble_base.h"
+#include "motor.h"
 
 
 

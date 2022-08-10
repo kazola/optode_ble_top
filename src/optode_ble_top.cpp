@@ -3,7 +3,7 @@
 /******************************************************/
 
 #include "Particle.h"
-#line 1 "/home/kaz/git/optode_ble_core/optode_ble_top/src/optode_ble_top.ino"
+#line 1 "c:/Users/kaz/git/optode_ble_top/src/optode_ble_top.ino"
 #include "inc.h"
 
 
@@ -13,7 +13,7 @@ static void _banner_setup_tests();
 static void _setup_main();
 static void _setup_tests();
 void setup();
-#line 5 "/home/kaz/git/optode_ble_core/optode_ble_top/src/optode_ble_top.ino"
+#line 5 "c:/Users/kaz/git/optode_ble_top/src/optode_ble_top.ino"
 #define _RUN_MAIN_          0
 #define _RUN_TESTS_         1
 #define _RUN_CHOSEN_        _RUN_TESTS_
@@ -84,14 +84,39 @@ static void _setup_tests()
     // new Thread("th_leds", th_fxn_leds);
 
 
-    BLE.on();
+    // BLE.on();
+    // while (1)
+    // {
+    //     ble_scan_for_loggers();
+    //     const char * mac = "FE:7D:29:D8:7D:67";
+    //     ble_interact_optode_mini(mac);
+    // }
+    // BLE.off();
+
+
+    // motor test
+    #if 1
+    //pinMode(PIN_MOTOR_LIMIT_LEFT_IN, INPUT_PULLUP);
+    //pinMode(PIN_MOTOR_LIMIT_RIGHT_IN, INPUT_PULLUP);
+    pinMode(PIN_MOTOR_EN_OUT, OUTPUT);
+    pinMode(PIN_MOTOR_MS1_OUT, OUTPUT);
+    pinMode(PIN_MOTOR_MS2_OUT, OUTPUT);
+    pinMode(PIN_MOTOR_STEP_OUT, OUTPUT);
+    pinMode(PIN_MOTOR_DIR_OUT, OUTPUT);
+    digital_write_motor_pins_reset();
+
+
     while (1)
     {
-        ble_scan_for_loggers();
-        const char * mac = "FE:7D:29:D8:7D:67";
-        ble_interact_optode_mini(mac);
+        uint16_t t_ms = 3000;
+        motor_set_resolution(0);
+        motor_move_right(t_ms);
+        delay(t_ms);
+        motor_move_left(t_ms);
+        delay(t_ms);
     }
-    BLE.off();
+
+    #endif
 
 
     _TRAP_AT_END_OF_TESTS_

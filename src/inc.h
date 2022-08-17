@@ -22,8 +22,9 @@
 
 
 
-#define _dW_  digitalWrite
-#define _dR_  digitalRead
+#define _dW_    digitalWrite
+#define _dR_    digitalRead
+#define _aR_    analogRead
 
 
 
@@ -34,7 +35,8 @@
 #define PIN_MOTOR_LIMIT_LEFT_IN             12  /* closer to motor */
 #define PIN_MOTOR_LIMIT_RIGHT_IN            13
 // #define PIN_ADC_MOTOR_IN                    A11
-// #define PIN_ADC_BATTERY_IN                  A10
+#define PIN_ADC_BATTERY_IN                  A4
+
 
 
 
@@ -47,7 +49,8 @@
 #define PIN_MOTOR_MS2_OUT       D6
 #define PIN_MOTOR_STEP_OUT      D7
 #define PIN_MOTOR_DIR_OUT       D8
-// #define PIN_LED_STRIP_OUT                   11
+#define PIN_LED_STRIP_OUT       11
+#define PIN_ADC_BATTERY_OUT     A5
 
 
 

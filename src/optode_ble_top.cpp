@@ -8,10 +8,7 @@
 
 
 
-static void _banner_setup_main();
-static void _banner_setup_tests();
-static void _setup_main();
-static void _setup_tests();
+static void _tests();
 void setup();
 #line 5 "c:/Users/kaz/git/optode_ble_top/src/optode_ble_top.ino"
 #define _RUN_MAIN_          0
@@ -46,35 +43,15 @@ SYSTEM_THREAD(ENABLED);
 
 
 
-static void _banner_setup_main()
+static void _tests()
 {
-    _LOG_ROOM_MAIN_
-    l_i_("[ BOOT ] running MAIN");
-    l_i_("---------------------");
-}
-
-
-
-static void _banner_setup_tests()
-{
+    _LOG_INIT_WITH_FILTERS_(1)
     _LOG_ROOM_MAIN_
     l_i_("[ BOOT ] running TESTS");
     l_i_("----------------------");
-}
 
 
 
-static void _setup_main()
-{
-    _banner_setup_main();
-}
-
-
-
-static void _setup_tests()
-{
-    _LOG_INIT_WITH_FILTERS_(1)
-    _banner_setup_tests();
 
 
     // ---------------------------------
@@ -83,6 +60,10 @@ static void _setup_tests()
     // new Thread("th_periodic", th_fxn_periodic);
     // new Thread("th_leds", th_fxn_leds);
 
+
+    // -----------
+    // BLE test
+    // -----------
 
     // BLE.on();
     // while (1)
@@ -94,18 +75,11 @@ static void _setup_tests()
     // BLE.off();
 
 
+    // -----------
     // motor test
-    #if 1
-    //pinMode(PIN_MOTOR_LIMIT_LEFT_IN, INPUT_PULLUP);
-    //pinMode(PIN_MOTOR_LIMIT_RIGHT_IN, INPUT_PULLUP);
-    pinMode(PIN_MOTOR_EN_OUT, OUTPUT);
-    pinMode(PIN_MOTOR_MS1_OUT, OUTPUT);
-    pinMode(PIN_MOTOR_MS2_OUT, OUTPUT);
-    pinMode(PIN_MOTOR_STEP_OUT, OUTPUT);
-    pinMode(PIN_MOTOR_DIR_OUT, OUTPUT);
-    digital_write_motor_pins_reset();
+    // -----------
 
-
+    #if 0
     while (1)
     {
         uint16_t t_ms = 3000;
@@ -115,8 +89,37 @@ static void _setup_tests()
         motor_move_left(t_ms);
         delay(t_ms);
     }
-
     #endif
+
+
+    // ----------------
+    // LED stripe test
+    // ----------------
+    #if 0
+    while (1)
+    {
+        _dW_(PIN_LED_STRIP_OUT, 1);
+        delay(1000);
+        _dW_(PIN_LED_STRIP_OUT, 0);
+        delay(1000);
+    }
+    #endif
+
+
+    // -----------------------
+    // BAT measurement test
+    // -----------------------
+    while (1)
+    {
+        _dW_(PIN_ADC_BATTERY_OUT, 1);
+        int val = _aR_(PIN_ADC_BATTERY_IN);
+        _dW_(PIN_ADC_BATTERY_OUT, 0);
+
+
+        // tell UART
+        l_i_("battery ADC value %d", val);
+        delay(100);
+    }
 
 
     _TRAP_AT_END_OF_TESTS_
@@ -128,12 +131,26 @@ void setup()
 {
     _DELAY_ATTACH_UART_MONITOR_
 
+    // ------------
+    // pins setup
+    // -------------
+    //pinMode(PIN_MOTOR_LIMIT_LEFT_IN, INPUT_PULLUP);
+    //pinMode(PIN_MOTOR_LIMIT_RIGHT_IN, INPUT_PULLUP);
+    pinMode(PIN_LED_STRIP_OUT, OUTPUT);
+    pinMode(PIN_MOTOR_EN_OUT, OUTPUT);
+    pinMode(PIN_MOTOR_MS1_OUT, OUTPUT);
+    pinMode(PIN_MOTOR_MS2_OUT, OUTPUT);
+    pinMode(PIN_MOTOR_STEP_OUT, OUTPUT);
+    pinMode(PIN_MOTOR_DIR_OUT, OUTPUT);
+    pinMode(PIN_ADC_BATTERY_OUT, OUTPUT);
+    digital_write_motor_pins_reset();
+
 
     #if _RUN_CHOSEN_ == _RUN_MAIN_
-        _setup_main();
+        _main();
     
     #elif _RUN_CHOSEN_ == _RUN_TESTS_
-        _setup_tests();
+        _tests();
     
     #elif _RUN_CHOSEN_ == _RUN_CUSTOM_
         _setup_custom();

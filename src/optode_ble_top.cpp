@@ -31,6 +31,8 @@ void setup();
         lcf.append({ "system", LOG_LEVEL_WARN });           \
         lcf.append({ "net", LOG_LEVEL_WARN });              \
         lcf.append({ "wiring", LOG_LEVEL_WARN });           \
+        /* careful hal.ble may mask errors */               \
+        lcf.append({ "hal", LOG_LEVEL_PANIC });             \
     }                                                       \
     SerialLogHandler logHandler(LOG_LEVEL_INFO, lcf);
 
@@ -47,7 +49,7 @@ static void _tests()
 {
     _LOG_INIT_WITH_FILTERS_(1)
     _LOG_ROOM_MAIN_
-    l_i_("[ BOOT ] running TESTS");
+    l_i_("[ BLE ] running TESTS");
     l_i_("----------------------");
 
 
@@ -65,14 +67,27 @@ static void _tests()
     // BLE test
     // -----------
 
-    // BLE.on();
-    // while (1)
-    // {
-    //     ble_scan_for_loggers();
-    //     const char * mac = "FE:7D:29:D8:7D:67";
-    //     ble_interact_optode_mini(mac);
-    // }
-    // BLE.off();
+    #if 1
+    if ((strlen(MAC_OPTODE_MINI_1) != _APP_BLE_MAC_LEN_) ||    \
+        (strlen(MAC_OPTODE_MINI_2) != _APP_BLE_MAC_LEN_))
+    {
+        l_e_("[ BLE ] scanner MACs bad length");
+    }
+
+    BLE.on();
+    while (1)
+    {
+        uint8_t mask = 0;
+        ble_scan_for_optode_minis(&mask);
+
+        l_i_("[ BLE ] optode mini detected mask = %d", mask);
+        // if (mask != 3) continue;
+
+        ble_interact_optode_mini(MAC_OPTODE_MINI_1);
+    }
+    BLE.off();
+    #endif
+
 
 
     // -----------
@@ -92,6 +107,8 @@ static void _tests()
     #endif
 
 
+
+
     // ----------------
     // LED stripe test
     // ----------------
@@ -106,9 +123,12 @@ static void _tests()
     #endif
 
 
+
+
     // -----------------------
     // BAT measurement test
     // -----------------------
+    #if 0
     while (1)
     {
         _dW_(PIN_ADC_BATTERY_OUT, 1);
@@ -120,6 +140,7 @@ static void _tests()
         l_i_("battery ADC value %d", val);
         delay(100);
     }
+    #endif
 
 
     _TRAP_AT_END_OF_TESTS_

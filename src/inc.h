@@ -11,14 +11,20 @@
 
 
 
+// stuff for BLE within IRIS scanners
+#define MAC_OPTODE_MINI_1       "FE:7D:29:D8:7D:67"
+#define MAC_OPTODE_MINI_2       "_________________"
 
-#define _APP_BLE_DATA_BUFFER_LEN_           2048
+
+
+// stuff for BLE APP
 #define _APP_BLE_SCAN_DURATION_S_           5
 #define _APP_BLE_SCAN_TIMEOUT_S(n)          (n * 100)
 #define _APP_BLE_SCAN_RESULT_MAX_LEN_       100
-#define _APP_BLE_LOGGER_NAME_LEN_		    25
-#define _APP_BLE_LOGGER_MAC_LEN_		    18
+#define _APP_BLE_NAME_LEN_		            25
 #define _APP_BLE_NOTIFICATION_LEN_	        20
+#define _APP_BLE_MAC_LEN_                   17
+
 
 
 
@@ -72,12 +78,6 @@
 
 extern BleCharacteristic c_r;
 extern BleCharacteristic c_w;
-extern uint8_t ble_data[_APP_BLE_DATA_BUFFER_LEN_];
-extern uint16_t ble_data_i;
-
-
-
-
 
 
 

@@ -7,10 +7,7 @@
 
 
 
-void ble_clr_data_buf();
-int ble_data_endswith(const char *);
-int ble_data_almost_endswith(const char *, int);
-void ble_scan_for_loggers();
+void ble_scan_for_optode_minis(uint8_t *);
 uint8_t ble_interact_optode_mini(const char *);
 
 

@@ -67,7 +67,7 @@ static void _tests()
     // BLE test
     // -----------
 
-    #if 1
+    #if 0
     if ((strlen(MAC_OPTODE_MINI_1) != _APP_BLE_MAC_LEN_) ||    \
         (strlen(MAC_OPTODE_MINI_2) != _APP_BLE_MAC_LEN_))
     {
@@ -132,13 +132,34 @@ static void _tests()
     while (1)
     {
         _dW_(PIN_ADC_BATTERY_OUT, 1);
+        delay(1000);
         int val = _aR_(PIN_ADC_BATTERY_IN);
         _dW_(PIN_ADC_BATTERY_OUT, 0);
 
 
         // tell UART
         l_i_("battery ADC value %d", val);
-        delay(100);
+        delay(1000);
+    }
+    #endif
+
+
+
+    // -----------------------
+    // WATER measurement test
+    // -----------------------
+    #if 1
+    while (1)
+    {
+        _dW_(PIN_ADC_WATER_OUT, 1);
+        delay(1000);
+        int val = _aR_(PIN_ADC_WATER_IN);
+        _dW_(PIN_ADC_WATER_OUT, 0);
+
+
+        // tell UART
+        l_i_("water ADC value %d", val);
+        delay(1000);
     }
     #endif
 
@@ -164,6 +185,7 @@ void setup()
     pinMode(PIN_MOTOR_STEP_OUT, OUTPUT);
     pinMode(PIN_MOTOR_DIR_OUT, OUTPUT);
     pinMode(PIN_ADC_BATTERY_OUT, OUTPUT);
+    pinMode(PIN_ADC_WATER_OUT, OUTPUT);
     digital_write_motor_pins_reset();
 
 

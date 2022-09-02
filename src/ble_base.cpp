@@ -79,7 +79,8 @@ uint8_t ble_interact_optode_mini(const char * mac)
 
 
     // make BLE mini do what we want
-    l_i_("[ BLE ] connected BLE optode mini, mac = %s", mac);
+    l_i_("[ BLE ] connected BLE optode mini");
+    l_i_("[ BLE ] mini mac %s", mac);
     c_r.onDataReceived(_on_data_rx, NULL);
     const char * UUID_R = "2324";
     const char * UUID_W = "2325";
@@ -98,6 +99,7 @@ uint8_t ble_interact_optode_mini(const char * mac)
 
     // end!
     BLE.disconnect(_p);
-    l_i_("[ BLE ] disconnected BLE optode mini, mac = %s", mac);
+    l_i_("[ BLE ] disconnected BLE optode mini");
+    l_i_("[ BLE ] mini mac %s", mac);
     return 0;
 }

@@ -44,6 +44,10 @@
 #define PIN_ADC_BATTERY_IN                  A4
 
 
+// todo > change this
+#define PIN_ADC_WATER_IN                    A4
+
+
 
 
 // -----------
@@ -57,6 +61,11 @@
 #define PIN_MOTOR_DIR_OUT       D8
 #define PIN_LED_STRIP_OUT       11
 #define PIN_ADC_BATTERY_OUT     A5
+
+
+// todo > change this pin
+#define PIN_ADC_WATER_OUT     A5
+
 
 
 

@@ -9,6 +9,7 @@
 
 
 static void _tests();
+static void _main();
 void setup();
 #line 5 "c:/Users/kaz/git/optode_ble_top/src/optode_ble_top.ino"
 #define _RUN_MAIN_          0
@@ -53,118 +54,42 @@ static void _tests()
     l_i_("----------------------");
 
 
-
-
-
-    // ---------------------------------
-    // start periodic background thread
-    // ---------------------------------
-    // new Thread("th_periodic", th_fxn_periodic);
-    // new Thread("th_leds", th_fxn_leds);
-
-
-    // -----------
-    // BLE test
-    // -----------
-
-    #if 0
-    if ((strlen(MAC_OPTODE_MINI_1) != _APP_BLE_MAC_LEN_) ||    \
-        (strlen(MAC_OPTODE_MINI_2) != _APP_BLE_MAC_LEN_))
-    {
-        l_e_("[ BLE ] scanner MACs bad length");
-    }
-
-    BLE.on();
-    while (1)
-    {
-        uint8_t mask = 0;
-        ble_scan_for_optode_minis(&mask);
-
-        l_i_("[ BLE ] optode mini detected mask = %d", mask);
-        // if (mask != 3) continue;
-
-        ble_interact_optode_mini(MAC_OPTODE_MINI_1);
-    }
-    BLE.off();
-    #endif
-
-
-
-    // -----------
-    // motor test
-    // -----------
-
-    #if 0
-    while (1)
-    {
-        uint16_t t_ms = 3000;
-        motor_set_resolution(0);
-        motor_move_right(t_ms);
-        delay(t_ms);
-        motor_move_left(t_ms);
-        delay(t_ms);
-    }
-    #endif
-
-
-
-
-    // ----------------
-    // LED stripe test
-    // ----------------
-    #if 0
-    while (1)
-    {
-        _dW_(PIN_LED_STRIP_OUT, 1);
-        delay(1000);
-        _dW_(PIN_LED_STRIP_OUT, 0);
-        delay(1000);
-    }
-    #endif
-
-
-
-
-    // -----------------------
-    // BAT measurement test
-    // -----------------------
-    #if 0
-    while (1)
-    {
-        _dW_(PIN_ADC_BATTERY_OUT, 1);
-        delay(1000);
-        int val = _aR_(PIN_ADC_BATTERY_IN);
-        _dW_(PIN_ADC_BATTERY_OUT, 0);
-
-
-        // tell UART
-        l_i_("battery ADC value %d", val);
-        delay(1000);
-    }
-    #endif
-
-
-
-    // -----------------------
-    // WATER measurement test
-    // -----------------------
     #if 1
-    while (1)
-    {
-        _dW_(PIN_ADC_WATER_OUT, 1);
-        delay(1000);
-        int val = _aR_(PIN_ADC_WATER_IN);
-        _dW_(PIN_ADC_WATER_OUT, 0);
+    test_ble_as_peripheral();
+    #endif
 
+    #if 0
+    test_ble_as_master();
+    #endif
 
-        // tell UART
-        l_i_("water ADC value %d", val);
-        delay(1000);
-    }
+    #if 0
+    test_motor();
+    #endif
+
+    #if 0
+    test_led_strip();
+    #endif
+
+    #if 0
+    test_battery_measurement();
+    #endif
+
+    #if 0
+    test_water_measurement();
     #endif
 
 
     _TRAP_AT_END_OF_TESTS_
+}
+
+
+
+static void _main()
+{
+    _LOG_INIT_WITH_FILTERS_(1)
+    _LOG_ROOM_MAIN_
+    l_i_("[ BLE ] running MAIN");
+    l_i_("----------------------");
 }
 
 

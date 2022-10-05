@@ -1,7 +1,4 @@
-#include <Arduino.h>
-#include <assert.h>
 #include "motor.h"
-#include "inc.h"
 
 
 

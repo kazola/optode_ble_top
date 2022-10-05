@@ -80,6 +80,7 @@
 #include <stdint.h>
 #include "ble_base.h"
 #include "motor.h"
+#include "tests.h"
 
 
 

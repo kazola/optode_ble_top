@@ -1,6 +1,7 @@
 #include "tests.h"
 
 
+
 void test_ble_as_master()
 {
         if ((strlen(MAC_OPTODE_MINI_1) != _APP_BLE_MAC_LEN_) ||    \
@@ -44,8 +45,10 @@ void test_led_strip()
 {
     while (1)
     {
+        l_i_("[ LED ] 1");
         _dW_(PIN_LED_STRIP_OUT, 1);
         delay(1000);
+        l_i_("[ LED ] 0");
         _dW_(PIN_LED_STRIP_OUT, 0);
         delay(1000);
     }
@@ -74,10 +77,10 @@ void test_water_measurement()
 {
     while (1)
     {
-        _dW_(PIN_ADC_WATER_OUT, 1);
+        _dW_(PIN_WATER_EN_OUT, 1);
         delay(1000);
         int val = _aR_(PIN_ADC_WATER_IN);
-        _dW_(PIN_ADC_WATER_OUT, 0);
+        _dW_(PIN_WATER_EN_OUT, 0);
 
 
         // tell UART

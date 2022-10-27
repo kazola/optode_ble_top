@@ -40,12 +40,8 @@
 
 #define PIN_MOTOR_LIMIT_LEFT_IN             12  /* closer to motor */
 #define PIN_MOTOR_LIMIT_RIGHT_IN            13
-// #define PIN_ADC_MOTOR_IN                    A11
 #define PIN_ADC_BATTERY_IN                  A4
-
-
-// todo > change this
-#define PIN_ADC_WATER_IN                    A4
+#define PIN_ADC_WATER_IN                    A3
 
 
 
@@ -57,14 +53,12 @@
 #define PIN_MOTOR_EN_OUT        D4
 #define PIN_MOTOR_MS1_OUT       D5
 #define PIN_MOTOR_MS2_OUT       D6
+#define PIN_MOTOR_SLEEP_OUT     A2
 #define PIN_MOTOR_STEP_OUT      D7
 #define PIN_MOTOR_DIR_OUT       D8
 #define PIN_LED_STRIP_OUT       11
 #define PIN_ADC_BATTERY_OUT     A5
-
-
-// todo > change this pin
-#define PIN_ADC_WATER_OUT     A5
+#define PIN_WATER_EN_OUT        D3
 
 
 
@@ -81,6 +75,7 @@
 #include "ble_base.h"
 #include "motor.h"
 #include "tests.h"
+#include "tests_combo.h"
 
 
 

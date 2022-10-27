@@ -44,7 +44,7 @@ static void _tests()
     l_i_("----------------------");
 
 
-    #if 1
+    #if 0
     test_ble_as_peripheral();
     #endif
 
@@ -64,8 +64,12 @@ static void _tests()
     test_battery_measurement();
     #endif
 
-    #if 0
+    #if 1
     test_water_measurement();
+    #endif
+
+    #if 1
+    test_motor_n_led_n_batt_n_water();
     #endif
 
 
@@ -100,7 +104,7 @@ void setup()
     pinMode(PIN_MOTOR_STEP_OUT, OUTPUT);
     pinMode(PIN_MOTOR_DIR_OUT, OUTPUT);
     pinMode(PIN_ADC_BATTERY_OUT, OUTPUT);
-    pinMode(PIN_ADC_WATER_OUT, OUTPUT);
+    pinMode(PIN_WATER_EN_OUT, OUTPUT);
     digital_write_motor_pins_reset();
 
 

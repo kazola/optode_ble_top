@@ -2,6 +2,12 @@
 
 
 
+// ------------------------------------------
+// REMEMBER: solder the 3V bridge! not 5V
+// ------------------------------------------
+
+
+
 #define _en_        _dW_(PIN_MOTOR_EN_OUT, 0)
 #define _dis_       _dW_(PIN_MOTOR_EN_OUT, 1)
 #define _fw_        _dW_(PIN_MOTOR_DIR_OUT, 0)
@@ -28,6 +34,7 @@ void digital_write_motor_pins_reset()
     _dW_(PIN_MOTOR_MS2_OUT, 0);
     _dW_(PIN_MOTOR_STEP_OUT, 0);
     _dW_(PIN_MOTOR_DIR_OUT, 0);
+    _dW_(PIN_MOTOR_SLEEP_OUT, 1);
 }
 
 

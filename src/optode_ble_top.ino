@@ -64,12 +64,12 @@ static void _tests()
     test_battery_measurement();
     #endif
 
-    #if 1
+    #if 0
     test_water_measurement();
     #endif
 
     #if 1
-    test_motor_n_led_n_batt_n_water();
+    test_all();
     #endif
 
 
@@ -103,7 +103,7 @@ void setup()
     pinMode(PIN_MOTOR_MS2_OUT, OUTPUT);
     pinMode(PIN_MOTOR_STEP_OUT, OUTPUT);
     pinMode(PIN_MOTOR_DIR_OUT, OUTPUT);
-    pinMode(PIN_ADC_BATTERY_OUT, OUTPUT);
+    pinMode(PIN_BATTERY_EN_OUT, OUTPUT);
     pinMode(PIN_WATER_EN_OUT, OUTPUT);
     digital_write_motor_pins_reset();
 

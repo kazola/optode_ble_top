@@ -57,7 +57,7 @@
 #define PIN_MOTOR_STEP_OUT      D7
 #define PIN_MOTOR_DIR_OUT       D8
 #define PIN_LED_STRIP_OUT       11
-#define PIN_ADC_BATTERY_OUT     A5
+#define PIN_BATTERY_EN_OUT      A5
 #define PIN_WATER_EN_OUT        D3
 
 
@@ -75,9 +75,6 @@
 #include "ble_base.h"
 #include "motor.h"
 #include "tests.h"
-#include "tests_combo.h"
-
-
 
 
 

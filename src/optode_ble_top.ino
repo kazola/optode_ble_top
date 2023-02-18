@@ -44,7 +44,7 @@ static void _tests()
     l_i_("----------------------");
 
 
-    #if 0
+    #if 1
     test_ble_as_peripheral();
     #endif
 
@@ -68,7 +68,7 @@ static void _tests()
     test_water_measurement();
     #endif
 
-    #if 1
+    #if 0
     test_all();
     #endif
 

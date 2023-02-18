@@ -1,14 +1,78 @@
 #include "tests.h"
+#include "Particle.h"
+
+
+
+// must be defined here, outside
+const size_t UART_TX_BUF_SIZE = 20;
+void onDataReceived(const uint8_t* data, size_t len, const BlePeerDevice& peer, void* context);
+const BleUuid serviceUuid("6E400001-B5A3-F393-E0A9-E50E24DCCA9E");
+const BleUuid rxUuid("6E400002-B5A3-F393-E0A9-E50E24DCCA9E");
+const BleUuid txUuid("6E400003-B5A3-F393-E0A9-E50E24DCCA9E");
+BleCharacteristic txCharacteristic("tx", BleCharacteristicProperty::NOTIFY, txUuid, serviceUuid);
+BleCharacteristic rxCharacteristic("rx", BleCharacteristicProperty::WRITE_WO_RSP, rxUuid, serviceUuid, onDataReceived, NULL);
+
+static volatile uint8_t end_of_conf;
+void onDataReceived(const uint8_t* data, size_t len, const BlePeerDevice& peer, void* context) 
+{
+    Serial.write("> ");
+    for (size_t ii = 0; ii < len; ii++) 
+         Serial.write(data[ii]);
+    Serial.write("\n\r");
+    end_of_conf = data[0] == '/';
+}
+
+
+
+static volatile uint8_t _tell_someone_connected;
+void test_ble_as_peripheral()
+{
+    const char * mac = BLE.address().toString().c_str();
+    l_i_("[ BLE ] peripheral optode core MAC address = %s", mac);
+
+
+    uint16_t time_during_we_can_conf_optode = 50000;
+    l_i_("[ BLE ] optode waiting to receive configuration via Bluetooth");
+
+
+    // advertising information
+    BLE.on();
+    BLE.addCharacteristic(txCharacteristic);
+    BLE.addCharacteristic(rxCharacteristic);
+    BleAdvertisingData _a;
+    _a.appendServiceUUID(serviceUuid);
+    _a.appendLocalName("optode");
+	BLE.advertise(&_a);
+    while (!end_of_conf)
+    {
+        if (BLE.connected() && !_tell_someone_connected)
+        {
+            // show this once
+            l_i_("[ BLE ] optode ready to receive configuration");
+            _tell_someone_connected = 1;
+        }
+        delay(1000);
+    }
+    BLE.off();
+
+    l_i_("[ BLE ] finished optode configuration");
+    l_i_("[ BLE ] starting optode running mode");
+}
 
 
 
 void test_ble_as_master()
 {
-        if ((strlen(MAC_OPTODE_MINI_1) != _APP_BLE_MAC_LEN_) ||    \
+    if ((strlen(MAC_OPTODE_MINI_1) != _APP_BLE_MAC_LEN_) ||    \
         (strlen(MAC_OPTODE_MINI_2) != _APP_BLE_MAC_LEN_))
     {
-        l_e_("[ BLE ] scanner MACs bad length");
+        l_e_("[ BLE ] optode_mini MACs bad length");
     }
+
+    
+    const char * mac = BLE.address().toString().c_str();
+    l_i_("[ BLE ] master optode core MAC address = %s", mac);
+
 
     BLE.on();
     while (1)
@@ -87,24 +151,6 @@ void test_water_measurement()
         l_i_("water ADC value %d", val);
         delay(1000);
     }
-}
-
-
-void test_ble_as_peripheral()
-{
-    BLE.on();
-
-    const char * mac = BLE.address().toString().c_str();
-    l_i_("[ BLE ] optode core MAC address = %s", mac);
-
-    BleAdvertisingData _a;
-    const char * s = "bat = 13V";
-    _a.appendLocalName("optode");
-    _a.appendCustomData((const uint8_t *) s, strlen(s));
-	BLE.advertise(&_a);
-    delay(20000);
-
-    BLE.off();
 }
 
 

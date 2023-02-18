@@ -3,7 +3,7 @@
 /******************************************************/
 
 #include "Particle.h"
-#line 1 "c:/Users/kaz/git/optode_ble_top/src/optode_ble_top.ino"
+#line 1 "/home/kaz/git/optode_ble_top/src/optode_ble_top.ino"
 #include "inc.h"
 
 
@@ -11,7 +11,7 @@
 static void _tests();
 static void _main();
 void setup();
-#line 5 "c:/Users/kaz/git/optode_ble_top/src/optode_ble_top.ino"
+#line 5 "/home/kaz/git/optode_ble_top/src/optode_ble_top.ino"
 #define _RUN_MAIN_          0
 #define _RUN_TESTS_         1
 #define _RUN_CHOSEN_        _RUN_TESTS_
@@ -54,7 +54,7 @@ static void _tests()
     l_i_("----------------------");
 
 
-    #if 0
+    #if 1
     test_ble_as_peripheral();
     #endif
 
@@ -78,7 +78,7 @@ static void _tests()
     test_water_measurement();
     #endif
 
-    #if 1
+    #if 0
     test_all();
     #endif
 

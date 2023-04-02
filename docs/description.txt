@@ -1,0 +1,12 @@
+inc      --------->  common constants and includes
+
+
+motor    --------->  moving arm
+ble_base --------->  wireless
+
+
+tests    --------->  debug motor, ble_base, battery, leds, water sensor
+main     --------->  field operation
+
+
+optode_ble_top --->  runs tests or main 

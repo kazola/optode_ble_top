@@ -1,5 +1,5 @@
 # Optode_ble_top
-Firmware - particle-based BLE project for main board in Optode device
+Firmware for the Particle module in the upper board of the optode device.
 
 ## Description
-See document docs/description.txt
+See ``docs/description.txt``.

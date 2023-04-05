@@ -1,4 +1,4 @@
-#include "ble_base.h"
+#include "ble_central.h"
 
 
 
@@ -15,8 +15,13 @@
 
 
 
+// will host characteristics from the mini
+BleCharacteristic c_r;
+BleCharacteristic c_w;
 
-void ble_scan_for_optode_minis(uint8_t * mask)
+
+
+void ble_central_scan_for_optode_minis(uint8_t * mask)
 {
     uint8_t t = _APP_BLE_SCAN_DURATION_S_;
     l_i_("\n\n\n");
@@ -59,12 +64,12 @@ static void _on_data_rx(const uint8_t* data, size_t len, const BlePeerDevice& pe
 	char s[_APP_BLE_NOTIFICATION_LEN_] = {0};
 	assert(len <= _APP_BLE_NOTIFICATION_LEN_);
 	memcpy(s, data, len);
-    l_i_("[ BLE ] notif -> %s (len %d)", s, len);
+    l_i_("[ BLE ] central | rx -> %s (len %d)", s, len);
 }
 
 
 
-uint8_t ble_interact_optode_mini(const char * mac)
+uint8_t ble_central_interact_with_optode_mini(const char * mac)
 {
     BleAddress _a = BleAddress(mac, BleAddressType::PUBLIC);
     BlePeerDevice _p = BLE.connect(_a);
@@ -79,8 +84,8 @@ uint8_t ble_interact_optode_mini(const char * mac)
 
 
     // make BLE mini do what we want
-    l_i_("[ BLE ] connected BLE optode mini");
-    l_i_("[ BLE ] mini mac %s", mac);
+    l_i_("[ BLE ] central | connected to BLE optode mini peripheral");
+    l_i_("[ BLE ] central | the mini mac is %s", mac);
     c_r.onDataReceived(_on_data_rx, NULL);
     const char * UUID_R = "2324";
     const char * UUID_W = "2325";
@@ -90,7 +95,9 @@ uint8_t ble_interact_optode_mini(const char * mac)
 
     // 'l': led
     uint8_t ans[10] = {0};
-    BLE_CMD("l");
+    const char * cmd = "l";
+    l_i_("[ BLE ] central | tx <- %s", cmd);
+    BLE_CMD(cmd);
     BLE_ANS(2000);
 
 
@@ -99,7 +106,6 @@ uint8_t ble_interact_optode_mini(const char * mac)
 
     // end!
     BLE.disconnect(_p);
-    l_i_("[ BLE ] disconnected BLE optode mini");
-    l_i_("[ BLE ] mini mac %s", mac);
+    l_i_("[ BLE ] central | disconnected from BLE optode mini");
     return 0;
 }

@@ -12,7 +12,7 @@
 
 
 // stuff for BLE within IRIS scanners
-#define MAC_OPTODE_MINI_1       "FE:7D:29:D8:7D:67"
+#define MAC_OPTODE_MINI_1       "4b:45:2d:e9:38:a0"
 #define MAC_OPTODE_MINI_2       "_________________"
 
 
@@ -72,7 +72,8 @@
 #include "ble.h"
 #include <string.h>
 #include <stdint.h>
-#include "ble_base.h"
+#include "ble_central.h"
+#include "ble_peripheral.h"
 #include "motor.h"
 #include "tests.h"
 

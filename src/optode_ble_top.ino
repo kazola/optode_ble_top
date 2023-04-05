@@ -40,39 +40,7 @@ static void _tests()
 {
     _LOG_INIT_WITH_FILTERS_(1)
     _LOG_ROOM_MAIN_
-    l_i_("[ BLE ] running TESTS");
-    l_i_("----------------------");
-
-
-    #if 1
-    test_ble_as_peripheral();
-    #endif
-
-    #if 0
-    test_ble_as_master();
-    #endif
-
-    #if 0
-    test_motor();
-    #endif
-
-    #if 0
-    test_led_strip();
-    #endif
-
-    #if 0
-    test_battery_measurement();
-    #endif
-
-    #if 0
-    test_water_measurement();
-    #endif
-
-    #if 0
-    test_all();
-    #endif
-
-
+    run_tests();
     _TRAP_AT_END_OF_TESTS_
 }
 

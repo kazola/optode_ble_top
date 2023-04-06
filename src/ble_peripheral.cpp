@@ -10,6 +10,14 @@ const BleUuid txUuid("6E400003-B5A3-F393-E0A9-E50E24DCCA9E");
 BleCharacteristic txCharacteristic("tx", BleCharacteristicProperty::NOTIFY, txUuid, serviceUuid);
 BleCharacteristic rxCharacteristic("rx", BleCharacteristicProperty::WRITE_WO_RSP, rxUuid, serviceUuid, on_data_rx_as_peripheral, NULL);
 static volatile uint8_t end_of_conf;
+static volatile uint8_t counter_macs;
+
+
+
+static void _tx_ans(const char * a)
+{
+    txCharacteristic.setValue((const uint8_t *)a, strlen(a));
+}
 
 
 
@@ -26,14 +34,30 @@ void on_data_rx_as_peripheral
 
 
     // parse incoming commands from laptop or phone
-    if (!strncmp((const char *)data, "i", 1))
+    if (data[0] == 'i')
     {
-        txCharacteristic.setValue((const uint8_t *)"inc_time_ok", 11);
+        _tx_ans("inc_time_ok");
     }
-    else if (!strncmp((const char *)data, "/", 1))
+    else if (data[0] == '/')
     {
-        txCharacteristic.setValue((const uint8_t *)"run_ok", 6);
+        _tx_ans("run_ok");
         end_of_conf = 1;
+    }
+    else if (data[0] == 'm')
+    {
+        if (counter_macs % 2)
+        {
+            _tx_ans(MAC_OPTODE_MINI_1);
+        }
+        else
+        {
+            _tx_ans(MAC_OPTODE_MINI_2);
+        }
+        counter_macs++;
+    }
+    else if (data[0] == 's')
+    {
+        _tx_ans("BOOTING");
     }
 }
 

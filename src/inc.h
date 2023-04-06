@@ -13,7 +13,7 @@
 
 // stuff for BLE within IRIS scanners
 #define MAC_OPTODE_MINI_1       "4b:45:2d:e9:38:a0"
-#define MAC_OPTODE_MINI_2       "_________________"
+#define MAC_OPTODE_MINI_2       "11:22:33:44:55:66"
 
 
 

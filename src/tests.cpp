@@ -170,7 +170,7 @@ void run_tests()
     test_ble_as_peripheral();
     #endif
 
-    #if 1
+    #if 0
     test_ble_as_central();
     #endif
 

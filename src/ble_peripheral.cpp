@@ -21,6 +21,13 @@ static void _tx_ans(const char * a)
 
 
 
+static uint8_t _cmd_is(const uint8_t * c, const char * s)
+{
+    return !strncmp((const char *)c, s, 2);
+}
+
+
+
 void on_data_rx_as_peripheral
 (const uint8_t* data, size_t len, const BlePeerDevice& peer, void* context) 
 {
@@ -34,16 +41,18 @@ void on_data_rx_as_peripheral
 
 
     // parse incoming commands from laptop or phone
-    if (data[0] == 'i')
+    if (_cmd_is(data, "it"))
     {
         _tx_ans("inc_time_ok");
     }
-    else if (data[0] == '/')
+
+    else if (_cmd_is(data, "ru"))
     {
         _tx_ans("run_ok");
         end_of_conf = 1;
     }
-    else if (data[0] == 'm')
+
+    else if (_cmd_is(data, "ma"))
     {
         if (counter_macs % 2)
         {
@@ -55,9 +64,41 @@ void on_data_rx_as_peripheral
         }
         counter_macs++;
     }
-    else if (data[0] == 's')
+
+    else if (_cmd_is(data, "st"))
     {
-        _tx_ans("BOOTING");
+        _tx_ans("st_booting");
+    }
+
+    else if (_cmd_is(data, "ml"))
+    {
+        _tx_ans("ml_ok");
+    }
+
+    else if (_cmd_is(data, "mr"))
+    {
+        _tx_ans("mr_ok");
+    }
+
+    else if (_cmd_is(data, "lo"))
+    {
+        _tx_ans("lo_ok");
+    }
+
+    else if (_cmd_is(data, "lf"))
+    {
+        _tx_ans("lf_ok");
+    }
+
+    else if (_cmd_is(data, "ba"))
+    {
+        _tx_ans("3000");
+    }
+
+
+    else
+    {
+        _tx_ans("ERR");
     }
 }
 

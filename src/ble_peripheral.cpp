@@ -72,21 +72,25 @@ void on_data_rx_as_peripheral
 
     else if (_cmd_is(data, "ml"))
     {
+        motor_move_left(1000);
         _tx_ans("ml_ok");
     }
 
     else if (_cmd_is(data, "mr"))
     {
         _tx_ans("mr_ok");
+        motor_move_right(1000);
     }
 
     else if (_cmd_is(data, "lo"))
     {
+        led_strip_on();
         _tx_ans("lo_ok");
     }
 
     else if (_cmd_is(data, "lf"))
     {
+        led_strip_off();
         _tx_ans("lf_ok");
     }
 
@@ -95,6 +99,16 @@ void on_data_rx_as_peripheral
         _tx_ans("3000");
     }
 
+    else if (_cmd_is(data, "m1"))
+    {
+        // todo: save to eeprom
+        _tx_ans("m1_ok");
+    }
+
+    else if (_cmd_is(data, "m2"))
+    {
+        _tx_ans("m2_ok");
+    }
 
     else
     {

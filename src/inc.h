@@ -74,6 +74,7 @@
 #include <stdint.h>
 #include "ble_central.h"
 #include "ble_peripheral.h"
+#include "led_strip.h"
 #include "motor.h"
 #include "tests.h"
 

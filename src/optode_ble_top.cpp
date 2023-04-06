@@ -70,6 +70,7 @@ void setup()
 {
     _DELAY_ATTACH_UART_MONITOR_
 
+
     // ------------
     // pins setup
     // -------------
@@ -83,7 +84,11 @@ void setup()
     pinMode(PIN_MOTOR_DIR_OUT, OUTPUT);
     pinMode(PIN_BATTERY_EN_OUT, OUTPUT);
     pinMode(PIN_WATER_EN_OUT, OUTPUT);
+
+
+    // motor init
     digital_write_motor_pins_reset();
+    motor_set_resolution(0);
 
 
     #if _RUN_CHOSEN_ == _RUN_MAIN_

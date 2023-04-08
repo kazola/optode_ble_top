@@ -166,11 +166,11 @@ void run_tests()
     l_i_("----------------------");
 
 
-    #if 1
+    #if 0
     test_ble_as_peripheral();
     #endif
 
-    #if 0
+    #if 1
     test_ble_as_central();
     #endif
 

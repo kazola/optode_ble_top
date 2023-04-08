@@ -10,7 +10,6 @@
 #define BLE_ANS(t)                              \
     delay(100);                                 \
     c_r.getValue(ans, 10);                      \
-    l_i_("[ BLE ] r_ans -> %s", ans);           \
     delay(t);
 
 
@@ -93,15 +92,25 @@ uint8_t ble_central_interact_with_optode_mini(const char * mac)
     _p.getCharacteristicByUUID(c_w, BleUuid(UUID_W));
 
 
-    // 'l': led
-    uint8_t ans[10] = {0};
-    const char * cmd = "l";
-    l_i_("[ BLE ] central | tx <- %s", cmd);
-    BLE_CMD(cmd);
-    BLE_ANS(2000);
-
-
-    // command answer is in variable 'ans'
+    // command answer ends up in MACRO variable 'ans'
+    uint8_t ans[20];
+    while (1)
+    {
+        l_i_("\n");
+        l_i_("\n[ BLE ] central | tx <- %s", "le_wo_do_wi_di");
+        memset(ans, 0, 20);
+        BLE_CMD("le");
+        BLE_ANS(2000);
+        BLE_CMD("wo");
+        BLE_ANS(500);
+        BLE_CMD("do");
+        BLE_ANS(500);
+        BLE_CMD("wi");
+        BLE_ANS(500);
+        BLE_CMD("di");
+        BLE_ANS(500);
+        delay(3000);
+    }
 
 
     // end!

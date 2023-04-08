@@ -8,8 +8,7 @@
 
 
 
-static void _tests();
-static void _main();
+void loop();
 void setup();
 #line 5 "/home/kaz/git/optode_ble_top/src/optode_ble_top.ino"
 #define _RUN_MAIN_          0
@@ -39,30 +38,13 @@ void setup();
 
 
 
-
-
 SYSTEM_MODE(MANUAL);
 SYSTEM_THREAD(ENABLED);
 
 
 
-static void _tests()
-{
-    _LOG_INIT_WITH_FILTERS_(1)
-    _LOG_ROOM_MAIN_
-    run_tests();
-    _TRAP_AT_END_OF_TESTS_
-}
-
-
-
-static void _main()
-{
-    _LOG_INIT_WITH_FILTERS_(1)
-    _LOG_ROOM_MAIN_
-    l_i_("[ BLE ] running MAIN");
-    l_i_("----------------------");
-}
+// empty on purpose
+void loop() {}
 
 
 
@@ -71,9 +53,15 @@ void setup()
     _DELAY_ATTACH_UART_MONITOR_
 
 
-    // ------------
-    // pins setup
-    // -------------
+    // configure logging
+    _LOG_INIT_WITH_FILTERS_(1)
+    _LOG_ROOM_
+    
+
+    // --------------------------------------------
+    // pins setup, beware of motor limits floating
+    // --------------------------------------------
+
     //pinMode(PIN_MOTOR_LIMIT_LEFT_IN, INPUT_PULLUP);
     //pinMode(PIN_MOTOR_LIMIT_RIGHT_IN, INPUT_PULLUP);
     pinMode(PIN_LED_STRIP_OUT, OUTPUT);
@@ -86,19 +74,18 @@ void setup()
     pinMode(PIN_WATER_EN_OUT, OUTPUT);
 
 
-    // motor init
+
+    // motor safe start configuration
     digital_write_motor_pins_reset();
     motor_set_resolution(0);
 
 
     #if _RUN_CHOSEN_ == _RUN_MAIN_
-        _main();
+        run_autonomous();
     
     #elif _RUN_CHOSEN_ == _RUN_TESTS_
-        _tests();
-    
-    #elif _RUN_CHOSEN_ == _RUN_CUSTOM_
-        _setup_custom();
+        run_tests();
+        _TRAP_AT_END_OF_TESTS_    
     
     #else
         l_e_("[ DDP ] choose _run_main or _run_tests!");

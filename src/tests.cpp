@@ -45,7 +45,6 @@ void test_motor()
     while (1)
     {
         uint16_t t_ms = 3000;
-        motor_set_resolution(0);
         motor_move_right(t_ms);
         delay(t_ms);
         motor_move_left(t_ms);
@@ -125,7 +124,6 @@ void test_all()
 
         uint16_t t_ms = 3000;
         l_i_("[ TEST ] MOTOR to right");
-        motor_set_resolution(0);
         motor_move_right(t_ms);
         delay(t_ms);
         l_i_("[ TEST ] MOTOR to left");
@@ -162,15 +160,15 @@ void test_all()
 
 void run_tests()
 {
-    l_i_("[ BLE ] running TESTS");
-    l_i_("----------------------");
+    l_i_("[ RUN ] TESTS");
+    l_i_("-------------");
 
 
-    #if 0
+    #if 1
     test_ble_as_peripheral();
     #endif
 
-    #if 1
+    #if 0
     test_ble_as_central();
     #endif
 

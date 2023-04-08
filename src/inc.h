@@ -6,8 +6,7 @@
 
 #define l_i_ Log.info
 #define l_e_ Log.error
-#define _LOG_ROOM_MAIN_     l_i_("%s", "\n\n\n\n\n\n");
-#define _LOG_ROOM_FXN_      l_i_("%s", "\n\n\n");
+#define _LOG_ROOM_     l_i_("%s", "\n\n\n\n\n\n");
 
 
 

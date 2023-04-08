@@ -17,6 +17,9 @@ static volatile uint8_t counter_macs;
 static void _tx_ans(const char * a)
 {
     txCharacteristic.setValue((const uint8_t *)a, strlen(a));
+    Serial.write("<- ");
+    Serial.write(a);
+    Serial.write("\r\n");
 }
 
 

@@ -3,14 +3,14 @@
 /******************************************************/
 
 #include "Particle.h"
-#line 1 "/home/kaz/git/optode_ble_top/src/optode_ble_top.ino"
+#line 1 "c:/Users/kaz/git/optode_ble_top/src/optode_ble_top.ino"
 #include "inc.h"
 
 
 
 void loop();
 void setup();
-#line 5 "/home/kaz/git/optode_ble_top/src/optode_ble_top.ino"
+#line 5 "c:/Users/kaz/git/optode_ble_top/src/optode_ble_top.ino"
 #define _RUN_MAIN_          0
 #define _RUN_TESTS_         1
 #define _RUN_CHOSEN_        _RUN_TESTS_
@@ -62,8 +62,8 @@ void setup()
     // pins setup, beware of motor limits floating
     // --------------------------------------------
 
-    //pinMode(PIN_MOTOR_LIMIT_LEFT_IN, INPUT_PULLUP);
-    //pinMode(PIN_MOTOR_LIMIT_RIGHT_IN, INPUT_PULLUP);
+    pinMode(PIN_MOTOR_LIMIT_LEFT_IN, INPUT_PULLUP);
+    pinMode(PIN_MOTOR_LIMIT_RIGHT_IN, INPUT_PULLUP);
     pinMode(PIN_LED_STRIP_OUT, OUTPUT);
     pinMode(PIN_MOTOR_EN_OUT, OUTPUT);
     pinMode(PIN_MOTOR_MS1_OUT, OUTPUT);
@@ -77,7 +77,11 @@ void setup()
 
     // motor safe start configuration
     digital_write_motor_pins_reset();
-    motor_set_resolution(0);
+    motor_set_resolution(3);
+    // 0 is too fast
+    // 1 is a bit slower
+    // 2 is even slower
+    // 
 
 
     #if _RUN_CHOSEN_ == _RUN_MAIN_

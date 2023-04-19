@@ -30,8 +30,10 @@ void test_ble_as_central()
         uint8_t mask = 0;
         ble_central_scan_for_optode_minis(&mask);
 
+
         l_i_("[ BLE ] optode mini detected mask = %d", mask);
         // if (mask != 3) continue;
+
 
         ble_central_interact_with_optode_mini(MAC_OPTODE_MINI_1);
     }

@@ -31,6 +31,9 @@ static uint8_t _cmd_is(const uint8_t * c, const char * s)
 
 
 
+// -----------------------------------------------
+// this manages COMMANDS when CORE as peripheral
+// -----------------------------------------------
 void on_data_rx_as_peripheral
 (const uint8_t* data, size_t len, const BlePeerDevice& peer, void* context) 
 {
@@ -83,6 +86,30 @@ void on_data_rx_as_peripheral
     {
         _tx_ans("mr_ok");
         motor_move_right(1000);
+    }
+
+    else if (_cmd_is(data, "ll"))
+    {
+        if (is_motor_left_limit_hit())
+        {
+            _tx_ans("ll_1");
+        }
+        else
+        {
+            _tx_ans("ll_0");
+        }
+    }
+
+    else if (_cmd_is(data, "lr"))
+    {
+        if (is_motor_right_limit_hit())
+        {
+            _tx_ans("lr_1");
+        }
+        else
+        {
+            _tx_ans("lr_0");
+        }
     }
 
     else if (_cmd_is(data, "lo"))

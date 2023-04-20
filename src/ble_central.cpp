@@ -68,7 +68,7 @@ static void _on_data_rx(const uint8_t* data, size_t len, const BlePeerDevice& pe
 
 
 
-uint8_t ble_central_interact_with_optode_mini(const char * mac)
+uint8_t ble_central_test_optode_mini(const char * mac)
 {
     BleAddress _a = BleAddress(mac, BleAddressType::PUBLIC);
     BlePeerDevice _p = BLE.connect(_a);
@@ -117,4 +117,16 @@ uint8_t ble_central_interact_with_optode_mini(const char * mac)
     BLE.disconnect(_p);
     l_i_("[ BLE ] central | disconnected from BLE optode mini");
     return 0;
+}
+
+
+
+uint8_t ble_central_optode_core_manage_both_optode_minis()
+{
+    // - connect mini 1, wifi off, display on, wheel on
+    // - connect mini 2, wifi off, display on, wheel on
+    // - motor right
+    // - motor back left
+    // - mini 2 is connected, wheel off, wifi on
+    // - connect mini 1, wheel off, wifi on
 }

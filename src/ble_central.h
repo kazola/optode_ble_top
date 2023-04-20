@@ -8,8 +8,8 @@
 
 
 void ble_central_scan_for_optode_minis(uint8_t *);
-uint8_t ble_central_interact_with_optode_mini(const char *);
-
+uint8_t ble_central_test_optode_mini(const char *);
+uint8_t ble_central_manage_both_optode_minis();
 
 
 

@@ -46,6 +46,14 @@ void on_data_rx_as_peripheral
     Serial.write("\n\r");
 
 
+    // ------------------------------
+    // todo: cmd set time interruns
+    // todo: cmd set speed
+    // todo: cmd set macs
+    // * second time onwards, wifi is on here
+    // ------------------------------
+
+
     // parse incoming commands from laptop or phone
     if (_cmd_is(data, "it"))
     {
@@ -163,7 +171,6 @@ void ble_peripheral_optode_core()
     _a.appendServiceUUID(serviceUuid);
     _a.appendLocalName("op_co_");
 	BLE.advertise(&_a);
-
 
 
     // loop till we receive the end_of_conf character == '/'

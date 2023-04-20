@@ -35,7 +35,7 @@ void test_ble_as_central()
         // if (mask != 3) continue;
 
 
-        ble_central_interact_with_optode_mini(MAC_OPTODE_MINI_1);
+        ble_central_test_optode_mini(MAC_OPTODE_MINI_1);
     }
     BLE.off();
 }

@@ -4,7 +4,7 @@
 
 #define _RUN_MAIN_          0
 #define _RUN_TESTS_         1
-#define _RUN_CHOSEN_        _RUN_TESTS_
+#define _RUN_CHOSEN_        _RUN_MAIN_
 
 
 

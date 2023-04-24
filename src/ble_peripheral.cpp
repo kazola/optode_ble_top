@@ -9,7 +9,7 @@ const BleUuid rxUuid("6E400002-B5A3-F393-E0A9-E50E24DCCA9E");
 const BleUuid txUuid("6E400003-B5A3-F393-E0A9-E50E24DCCA9E");
 BleCharacteristic txCharacteristic("tx", BleCharacteristicProperty::NOTIFY, txUuid, serviceUuid);
 BleCharacteristic rxCharacteristic("rx", BleCharacteristicProperty::WRITE_WO_RSP, rxUuid, serviceUuid, on_data_rx_as_peripheral, NULL);
-static volatile uint8_t end_of_conf;
+static volatile uint8_t _end_of_conf;
 static volatile uint8_t counter_macs;
 
 
@@ -63,18 +63,18 @@ void on_data_rx_as_peripheral
     else if (_cmd_is(data, "ru"))
     {
         _tx_ans("run_ok");
-        end_of_conf = 1;
+        _end_of_conf = 1;
     }
 
     else if (_cmd_is(data, "ma"))
     {
         if (counter_macs % 2)
         {
-            _tx_ans(MAC_OPTODE_MINI_1);
+            _tx_ans(MAC_OPTODE_MINI_A);
         }
         else
         {
-            _tx_ans(MAC_OPTODE_MINI_2);
+            _tx_ans(MAC_OPTODE_MINI_B);
         }
         counter_macs++;
     }
@@ -86,14 +86,14 @@ void on_data_rx_as_peripheral
 
     else if (_cmd_is(data, "ml"))
     {
-        motor_move_left(1000);
+        motor_move_left(10000);
         _tx_ans("ml_ok");
     }
 
     else if (_cmd_is(data, "mr"))
     {
         _tx_ans("mr_ok");
-        motor_move_right(1000);
+        motor_move_right(10000);
     }
 
     else if (_cmd_is(data, "ll"))
@@ -155,25 +155,39 @@ void on_data_rx_as_peripheral
 }
 
 
-
+static uint8_t only_add_characteristics_once = 0;
 void ble_peripheral_optode_core()
 {
     const char * mac = BLE.address().toString().c_str();
     l_i_("[ BLE ] peripheral | optode core start");
-    l_i_("[ BLE ] peripheral | optode core MAC address = %s", mac);
+    l_i_("[ BLE ] peripheral | optode core MAC @ = %s", mac);
+
+
+    // name: "op_co_" + last 2 digits of MAC
+    char name[10] = {0};
+    memcpy((uint8_t *)name, (uint8_t *)"op_co_", 6);
+    name[6] = mac[15];
+    name[7] = mac[16];
 
 
     // advertising information
     BLE.on();
-    BLE.addCharacteristic(txCharacteristic);
-    BLE.addCharacteristic(rxCharacteristic);
+    if (only_add_characteristics_once == 0)
+    {
+        BLE.addCharacteristic(txCharacteristic);
+        BLE.addCharacteristic(rxCharacteristic);
+        only_add_characteristics_once = 1;
+    }
+
     BleAdvertisingData _a;
     _a.appendServiceUUID(serviceUuid);
-    _a.appendLocalName("op_co_");
+    _a.appendLocalName((const char *)name);
 	BLE.advertise(&_a);
 
 
-    // loop till we receive the end_of_conf character == '/'
+    // loop till we receive the _end_of_conf character == '/'
+    _tell_connection_but_just_once = 0;
+    _end_of_conf = 0;
     while (1)
     {
         if (BLE.connected() && !_tell_connection_but_just_once)
@@ -183,7 +197,7 @@ void ble_peripheral_optode_core()
             _tell_connection_but_just_once = 1;
         }
 
-        if (end_of_conf)
+        if (_end_of_conf)
         {
             break;
         }

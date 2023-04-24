@@ -11,8 +11,13 @@
 
 
 // stuff for BLE within IRIS scanners
-#define MAC_OPTODE_MINI_1       "4b:45:2d:e9:38:a0"
-#define MAC_OPTODE_MINI_2       "11:22:33:44:55:66"
+#define MAC_OPTODE_MINI_1   "2f:b3:cf:49:55:4d"
+#define MAC_OPTODE_MINI_2   "eb:94:21:4a:63:12"
+#define MAC_OPTODE_MINI_3   "fe:7d:29:d8:7d:67"
+#define MAC_OPTODE_MINI_4   "72:51:d2:5f:7f:b3"
+#define MAC_OPTODE_MINI_5   "bf:f0:b0:33:1b:07"
+#define MAC_OPTODE_MINI_A   MAC_OPTODE_MINI_3
+#define MAC_OPTODE_MINI_B   MAC_OPTODE_MINI_4
 
 
 
@@ -76,6 +81,7 @@
 #include "led_strip.h"
 #include "motor.h"
 #include "tests.h"
+#include "autonomous.h"
 
 
 

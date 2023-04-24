@@ -7,7 +7,4 @@ ARMKAD145AWGK5P     e00fce68a550e74970ead5e7    F0:BC:8C:34:15:14
 
 mini
 ----
-1 -> 2f:b3:cf:49:55:4d
-2 -> eb:94:21:4a:63:12
-3 -> fe:7d:29:d8:7d:67
-4 -> 72:51:d2:5f:7f:b3
+see mini MACS in file "inc.h:

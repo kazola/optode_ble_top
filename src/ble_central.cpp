@@ -2,15 +2,29 @@
 
 
 
+// needed to communicate with optode mini
+const char * UUID_R = "2324";
+const char * UUID_W = "2325";
+
+
+
+#define BLE_ANS_LEN                             (20)
+
 #define BLE_MINI_SHOW(i, mac, n)                \
     l_i_("[ BLE ] optode mini #%d found", i);   \
     l_i_("[ BLE ] mini mac   %s", mac);         \
     l_i_("[ BLE ] mini name  %s", n);
-#define BLE_CMD     c_w.setValue
+
+#define BLE_CMD                                 \
+    memset(ans, 0, BLE_ANS_LEN);                \
+    c_w.setValue
+
 #define BLE_ANS(t)                              \
     delay(100);                                 \
     c_r.getValue(ans, 10);                      \
     delay(t);
+
+#define CK_ANS(b, n) !strncmp((const char *)ans, b, n);
 
 
 
@@ -43,12 +57,12 @@ void ble_central_scan_for_optode_minis(uint8_t * mask)
 
         // l_i_("[ BLE ] device found %s ADV name %s", mac, _s);
 
-        if (!strncmp(MAC_OPTODE_MINI_1, mac, _APP_BLE_MAC_LEN_))
+        if (!strncmp(MAC_OPTODE_MINI_A, mac, _APP_BLE_MAC_LEN_))
         {
             BLE_MINI_SHOW(1, mac, _r);
             *mask |= 1 << 0;
         }
-        if (!strncmp(MAC_OPTODE_MINI_2, mac, _APP_BLE_MAC_LEN_))
+        if (!strncmp(MAC_OPTODE_MINI_B, mac, _APP_BLE_MAC_LEN_))
         {
             BLE_MINI_SHOW(2, mac, _r);
             *mask |= 1 << 1;
@@ -63,7 +77,7 @@ static void _on_data_rx(const uint8_t* data, size_t len, const BlePeerDevice& pe
 	char s[_APP_BLE_NOTIFICATION_LEN_] = {0};
 	assert(len <= _APP_BLE_NOTIFICATION_LEN_);
 	memcpy(s, data, len);
-    l_i_("[ BLE ] central | rx -> %s (len %d)", s, len);
+    l_i_("[ BLE ] cen | rx -> %s (len %d)", s, len);
 }
 
 
@@ -121,12 +135,232 @@ uint8_t ble_central_test_optode_mini(const char * mac)
 
 
 
-uint8_t ble_central_optode_core_manage_both_optode_minis()
+static void _central_pre_mini(BleAddress m, char letter)
 {
-    // - connect mini 1, wifi off, display on, wheel on
-    // - connect mini 2, wifi off, display on, wheel on
-    // - motor right
-    // - motor back left
-    // - mini 2 is connected, wheel off, wifi on
-    // - connect mini 1, wheel off, wifi on
+    // required vars
+    uint8_t rv;
+    uint8_t ans[BLE_ANS_LEN] = {0};
+    BlePeerDevice _p;
+    l_e_("[ BLE ] cen | running pre_mini %c", letter);
+
+
+
+     // ---------------
+    // connect to mini
+    // ----------------
+    _p = BLE.connect(m);
+    if (!_p.connected())
+    {
+        l_e_("[ BLE ] cen | failed connecting mini %c", letter);
+        goto MY_END;
+    }
+    l_i_("[ BLE ] cen | connected mini %c", letter);
+    c_r.onDataReceived(_on_data_rx, NULL);
+    _p.getCharacteristicByUUID(c_r, BleUuid(UUID_R));
+    _p.getCharacteristicByUUID(c_w, BleUuid(UUID_W));
+
+
+
+    // --------------------------
+    // ensure mini display is ON
+    // --------------------------
+    BLE_CMD("di");
+    BLE_ANS(500);
+    rv = CK_ANS("di_on", 5);
+    if (!rv)
+    {
+        // try to start the display
+        l_i_("[ BLE ] cen | powering display on mini %c, wait 15 seconds", letter);
+        BLE_CMD("do");
+        BLE_ANS(15000);
+        rv = CK_ANS("do_ok", 5);
+        if (!rv)
+        {
+            l_e_("[ BLE ] cen | no display on mini %c", letter);
+            goto MY_END;
+        }
+
+        BLE_CMD("di");
+        BLE_ANS(500);
+        rv = CK_ANS("di_on", 5);
+        if (!rv)
+        {
+            l_e_("[ BLE ] cen | cannot turn on display on mini %c", letter);
+            goto MY_END;
+        }
+    }
+
+
+
+    // ------------------------
+    // ensure mini wifi is OFF
+    // ------------------------
+    BLE_CMD("wi");
+    BLE_ANS(500);
+    rv = CK_ANS("wi_of", 5);
+    if (!rv)
+    {
+        // try to turn off the wi-fi
+        BLE_CMD("wo");
+        BLE_ANS(4000);
+        rv = CK_ANS("wo_ok", 5);
+        if (!rv)
+        {
+            l_e_("[ BLE ] cen | no wifi on mini %c", letter);
+            goto MY_END;
+        }
+
+        BLE_CMD("wi");
+        BLE_ANS(500);
+        rv = CK_ANS("wi_of", 5);
+        if (!rv)
+        {
+            l_e_("[ BLE ] cen | cannot turn off wi-fi on mini %c", letter);
+            goto MY_END;
+        }
+    }
+
+
+
+    // ------------------------------
+    // toggle ON mini scanner wheel
+    // ------------------------------
+    BLE_CMD("wh");
+    BLE_ANS(2000);
+    rv = CK_ANS("wh_ok", 5);
+    if (!rv)
+    {
+        l_e_("[ BLE ] cen | no wheel on mini %c", letter);
+        goto MY_END;
+    }
+
+
+MY_END:
+    BLE.disconnect(_p);
+    l_i_("[ BLE ] cen | disconnected from mini %c", letter);
+
+}
+
+
+
+static void _central_post_mini(BleAddress m, char letter)
+{
+    // required vars
+    uint8_t rv;
+    uint8_t ans[BLE_ANS_LEN] = {0};
+    BlePeerDevice _p;
+    l_e_("[ BLE ] cen | running post_mini %c", letter);
+
+
+
+    // ---------------
+    // connect to mini
+    // ----------------
+    _p = BLE.connect(m);
+    if (!_p.connected())
+    {
+        l_e_("[ BLE ] cen | failed connecting mini %c", letter);
+        goto MY_END;
+    }
+    l_i_("[ BLE ] cen | connected mini %c", letter);
+    c_r.onDataReceived(_on_data_rx, NULL);
+    _p.getCharacteristicByUUID(c_r, BleUuid(UUID_R));
+    _p.getCharacteristicByUUID(c_w, BleUuid(UUID_W));
+
+
+
+    // --------------------------
+    // ensure mini display is ON
+    // --------------------------
+    BLE_CMD("di");
+    BLE_ANS(500);
+    rv = CK_ANS("di_on", 5);
+    if (!rv)
+    {
+
+        l_e_("[ BLE ] cen | unexpected display mini %c", letter);
+        goto MY_END;
+    }
+
+
+    // ------------------------------
+    // toggle OFF mini scanner wheel
+    // ------------------------------
+    BLE_CMD("wh");
+    BLE_ANS(500);
+    rv = CK_ANS("wh_ok", 5);
+    if (!rv)
+    {
+        l_e_("[ BLE ] cen | no wheel on mini %c", letter);
+        goto MY_END;
+    }
+
+
+
+    // ------------------------
+    // ensure mini wifi is ON
+    // ------------------------
+    BLE_CMD("wi");
+    BLE_ANS(500);
+    rv = CK_ANS("wi_on", 5);
+    if (!rv)
+    {
+        // try to turn off the wi-fi
+        BLE_CMD("wo");
+        BLE_ANS(4000);
+        rv = CK_ANS("wo_ok", 5);
+        if (!rv)
+        {
+            l_e_("[ BLE ] cen | no wifi on mini %c", letter);
+            goto MY_END;
+        }
+
+        // wifi read again
+        BLE_CMD("wi");
+        BLE_ANS(500);
+        rv = CK_ANS("wi_of", 5);
+        if (!rv)
+        {
+            l_e_("[ BLE ] cen | cannot turn off wi-fi on mini %c", letter);
+            goto MY_END;
+        }
+    }
+
+
+MY_END:
+    BLE.disconnect(_p);
+    l_i_("[ BLE ] cen | disconnected from mini %c", letter);
+
+}
+
+
+
+void ble_central_optode_core_manage_both_optode_minis()
+{
+    BLE.on();
+    BleAddress _a = BleAddress(MAC_OPTODE_MINI_A, BleAddressType::PUBLIC);
+    BleAddress _b = BleAddress(MAC_OPTODE_MINI_B, BleAddressType::PUBLIC);
+
+
+    l_i_("[ BLE ] cen | motor moving left");
+    motor_move_left(10000);
+
+
+    // wifi off, display on, wheel on
+    _central_pre_mini(_a, 'A');
+    _central_pre_mini(_b, 'B');
+
+
+    l_i_("[ BLE ] cen | motor moving right");
+    motor_move_right(10000);
+
+
+    // wheel off, wifi on
+    _central_post_mini(_a, 'A');
+    _central_post_mini(_b, 'B');
+
+
+   
+
+    BLE.off();
 }

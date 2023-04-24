@@ -50,7 +50,7 @@ uint8_t motor_move_right(uint16_t t_ms)
     {
         _step();
         if (millis() > _et) _rvm_(1);
-        //if (is_motor_right_limit_hit()) _rvm_(2);
+        if (is_motor_right_limit_hit()) _rvm_(2);
     }
 }
 
@@ -67,7 +67,7 @@ uint8_t motor_move_left(uint16_t t_ms)
     {
         _step();
         if (millis() > _et) _rvm_(1);
-        //if (is_motor_left_limit_hit()) _rvm_(2);
+        if (is_motor_left_limit_hit()) _rvm_(2);
     }
 }
 

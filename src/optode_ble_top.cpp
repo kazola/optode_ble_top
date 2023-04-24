@@ -13,7 +13,7 @@ void setup();
 #line 5 "c:/Users/kaz/git/optode_ble_top/src/optode_ble_top.ino"
 #define _RUN_MAIN_          0
 #define _RUN_TESTS_         1
-#define _RUN_CHOSEN_        _RUN_TESTS_
+#define _RUN_CHOSEN_        _RUN_MAIN_
 
 
 
@@ -75,13 +75,9 @@ void setup()
 
 
 
-    // motor safe start configuration
+    // motor safe start configuration (0 fast, 3 slow)
     digital_write_motor_pins_reset();
-    motor_set_resolution(3);
-    // 0 is too fast
-    // 1 is a bit slower
-    // 2 is even slower
-    // 
+    motor_set_resolution(2);
 
 
     #if _RUN_CHOSEN_ == _RUN_MAIN_

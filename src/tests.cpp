@@ -12,8 +12,8 @@ void test_ble_as_peripheral()
 
 void test_ble_as_central()
 {
-    if ((strlen(MAC_OPTODE_MINI_1) != _APP_BLE_MAC_LEN_) ||    \
-        (strlen(MAC_OPTODE_MINI_2) != _APP_BLE_MAC_LEN_))
+    if ((strlen(MAC_OPTODE_MINI_A) != _APP_BLE_MAC_LEN_) ||    \
+        (strlen(MAC_OPTODE_MINI_B) != _APP_BLE_MAC_LEN_))
     {
         l_e_("[ BLE ] optode_mini MACs bad length");
     }
@@ -35,7 +35,7 @@ void test_ble_as_central()
         // if (mask != 3) continue;
 
 
-        ble_central_test_optode_mini(MAC_OPTODE_MINI_1);
+        ble_central_test_optode_mini(MAC_OPTODE_MINI_A);
     }
     BLE.off();
 }

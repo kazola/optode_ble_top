@@ -450,6 +450,14 @@ static uint8_t _iris_unset_scan_wifi_on(BleAddress m, char letter)
 
 
 
+    // ---------------------------------------------------
+    // leave some time for image to get saved to SD card
+    // ---------------------------------------------------
+    l_e_("[ BLE ] cen | saving images at mini %c", letter);
+    delay(10000);
+
+
+
     // ---------------
     // switch on wifi
     // ---------------
@@ -574,7 +582,7 @@ void ble_central_optode_core_manage_both_optode_minis()
 
     // wait some time for images to be downloaded
     uint32_t time_to_dl = 30000;
-    char * s = "[ AUT ] allow %ld seconds to download";
+    const char * s = "[ AUT ] allow %ld seconds to download";
     l_i_(s, time_to_dl / 1000);
     delay(time_to_dl);
 

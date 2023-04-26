@@ -11,12 +11,6 @@
 void loop();
 void setup();
 #line 5 "c:/Users/kaz/git/optode_ble_top/src/optode_ble_top.ino"
-#define _RUN_MAIN_          0
-#define _RUN_TESTS_         1
-#define _RUN_CHOSEN_        _RUN_MAIN_
-
-
-
 #define _TRAP_AT_END_OF_TESTS_          while(1) { delay (10); }
 #define _DELAY_ATTACH_UART_MONITOR_     delay(2000);
 
@@ -80,7 +74,7 @@ void setup()
     motor_set_resolution(2);
 
 
-    #if _RUN_CHOSEN_ == _RUN_MAIN_
+    #if _RUN_CHOSEN_ == _RUN_AUTO_
         run_autonomous();
     
     #elif _RUN_CHOSEN_ == _RUN_TESTS_

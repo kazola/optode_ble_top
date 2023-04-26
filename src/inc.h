@@ -3,6 +3,12 @@
 
 
 
+#define _RUN_AUTO_          0
+#define _RUN_TESTS_         1
+#define _RUN_CHOSEN_        _RUN_AUTO_
+
+
+
 
 #define l_i_ Log.info
 #define l_e_ Log.error
@@ -10,7 +16,7 @@
 
 
 
-// stuff for BLE within IRIS scanners
+// do not touch: list of mini's MAC addresses for iris scanners
 #define MAC_OPTODE_MINI_1       "2f:b3:cf:49:55:4d"
 #define MAC_OPTODE_MINI_2       "eb:94:21:4a:63:12"
 #define MAC_OPTODE_MINI_3       "fe:7d:29:d8:7d:67"
@@ -27,6 +33,7 @@
 
 
 
+// you can touch these 2
 #define MAC_OPTODE_MINI_A   MAC_OPTODE_MINI_3
 #define MAC_OPTODE_MINI_B   MAC_OPTODE_MINI_4
 

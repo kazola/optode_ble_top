@@ -9,7 +9,7 @@ void run_autonomous()
 
 
 
-    #if 1
+    #if 0
         // ---------------------
         // FSM fully automatic
         // ---------------------
@@ -44,16 +44,13 @@ void run_autonomous()
             {
                 l_i_("[ AUT ] boot | going to mode run");
                 BLE.selectAntenna(BleAntennaType::INTERNAL);
+                ble_central_optode_core_manage_both_optode_minis();
             }
 
             else if (rv == 2)
             {
                 l_i_("[ AUT ] boot | going to mode download");
             }
-
-            
-            l_i_("[ AUT ] allow time to download scanner wifis");
-            delay(10000);
         }
     #endif
 }

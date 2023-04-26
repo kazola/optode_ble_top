@@ -166,8 +166,8 @@ static uint8_t only_add_characteristics_once = 0;
 uint8_t ble_peripheral_optode_core()
 {
     const char * mac = BLE.address().toString().c_str();
-    l_i_("[ BLE ] peripheral | optode core start");
-    l_i_("[ BLE ] peripheral | optode core MAC @ = %s", mac);
+    l_i_("[ BLE ] per | optode core start");
+    l_i_("[ BLE ] per | optode core MAC @ = %s", mac);
 
 
     // name: "op_co_" + last 2 digits of MAC
@@ -202,7 +202,7 @@ uint8_t ble_peripheral_optode_core()
         if (BLE.connected() && !_tell_connection_but_just_once)
         {
             // show this once
-            l_i_("[ BLE ] peripheral | optode ready to be configured");
+            l_i_("[ BLE ] per | optode ready to be configured");
             _tell_connection_but_just_once = 1;
         }
 
@@ -221,6 +221,6 @@ uint8_t ble_peripheral_optode_core()
     BLE.off();
 
 
-    l_i_("[ BLE ] peripheral | optode end configuration, rv = %d", rv);
+    l_i_("[ BLE ] per | optode end configuration, rv = %d", rv);
     return rv;
 }

@@ -541,34 +541,51 @@ MY_END:
 
 void ble_central_optode_core_manage_both_optode_minis()
 {
+    // activate Bluetooth features
     BLE.on();
     BleAddress _a = BleAddress(MAC_OPTODE_MINI_A, BleAddressType::PUBLIC);
     BleAddress _b = BleAddress(MAC_OPTODE_MINI_B, BleAddressType::PUBLIC);
 
 
+
+    // first thing we do is always reset motor to left
     l_i_("[ BLE ] cen | motor moving left");
     motor_move_left(10000);
 
 
+
+    // power up irises and set them in scan mode
     _iris_power_on_set_scan(_a, 'A');
+    _iris_power_on_set_scan(_b, 'B');
 
 
+
+    // move the motor towards right
     l_i_("[ BLE ] cen | motor moving right");
     motor_move_right(10000);
 
 
+
+    // make iris stop scanning and turn on wifi
     _iris_unset_scan_wifi_on(_a, 'A');
+    _iris_unset_scan_wifi_on(_b, 'B');
 
 
-    // uint32_t time_to_dl = 330000;
+
+    // wait some time for images to be downloaded
     uint32_t time_to_dl = 30000;
     char * s = "[ AUT ] allow %ld seconds to download";
     l_i_(s, time_to_dl / 1000);
     delay(time_to_dl);
 
 
+
+    // switch off to start as a clean sheet
     _iris_power_off(_a, 'A');
+    _iris_power_off(_b, 'B');
 
 
+
+    // deactivate Bluetooth features
     BLE.off();
 }

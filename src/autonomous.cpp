@@ -13,16 +13,20 @@ void run_autonomous()
         // ---------------------
         // FSM fully automatic
         // ---------------------
+        
+        l_i_("[ AUT ] going straight to mode RUN");
+        BLE.selectAntenna(BleAntennaType::INTERNAL);
+        
+
+        uint16_t run_num = 0;
         while (1)
         {
-            l_i_("[ AUT ] going straight to mode run");
-            BLE.selectAntenna(BleAntennaType::INTERNAL);
             ble_central_optode_core_manage_both_optode_minis();
+            l_i_("[ AUT ] run #%d", run_num++);
 
-            
-            uint32_t time_to_dl = 330000;
-            l_i_("[ AUT ] allow %d secs to download", time_to_dl / 1000);
-            delay(time_to_dl);
+
+            l_i_("[ AUT ] delay 10 seconds more to rest");
+            delay(10000);
         }
 
 

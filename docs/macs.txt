@@ -1,8 +1,8 @@
-    label                 identifier                BLE mac
----------------     ------------------------    -----------------
+    label               identifier             BLE core mac        BLE minis
+---------------   ------------------------   -----------------    -------------
 
-ARNKAD145U7YHAN     e00fce6870461b6cd0683468    C1:59:FA:52:4E:10
-ARMKAD145AWGK5P     e00fce68a550e74970ead5e7    F0:BC:8C:34:15:14
+ARNKAD145U7YHAN   e00fce6870461b6cd0683468   C1:59:FA:52:4E:10
+ARNKAD145AWGK5P   e00fce68a550e74970ead5e7   F0:BC:8C:34:15:14      3 and 4
 
 
 mini

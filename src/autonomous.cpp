@@ -16,12 +16,19 @@ void run_autonomous()
     while (1)
     {
         BLE.selectAntenna(BleAntennaType::EXTERNAL);
-        ble_peripheral_optode_core();
+        uint8_t rv = ble_peripheral_optode_core();
 
 
-        BLE.selectAntenna(BleAntennaType::INTERNAL);
-        ble_central_optode_core_manage_both_optode_minis();
-
+        if (rv == 1)
+        {
+            l_i_("[ AUT ] boot | going to mode run");
+            BLE.selectAntenna(BleAntennaType::INTERNAL);
+            ble_central_optode_core_manage_both_optode_minis();
+        }
+        else if (rv == 2)
+        {
+            l_i_("[ AUT ] boot | going to mode download");
+        }
 
         l_i_("[ AUT ] allow time to download scanner wifis");
         delay(10000);

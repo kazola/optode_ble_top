@@ -9,7 +9,8 @@ const BleUuid rxUuid("6E400002-B5A3-F393-E0A9-E50E24DCCA9E");
 const BleUuid txUuid("6E400003-B5A3-F393-E0A9-E50E24DCCA9E");
 BleCharacteristic txCharacteristic("tx", BleCharacteristicProperty::NOTIFY, txUuid, serviceUuid);
 BleCharacteristic rxCharacteristic("rx", BleCharacteristicProperty::WRITE_WO_RSP, rxUuid, serviceUuid, on_data_rx_as_peripheral, NULL);
-static volatile uint8_t _end_of_conf;
+static volatile uint8_t _go_to_mode_run;
+static volatile uint8_t _go_to_mode_dl;
 static volatile uint8_t counter_macs;
 
 
@@ -63,7 +64,13 @@ void on_data_rx_as_peripheral
     else if (_cmd_is(data, "ru"))
     {
         _tx_ans("run_ok");
-        _end_of_conf = 1;
+        _go_to_mode_run = 1;
+    }
+
+    else if (_cmd_is(data, "dl"))
+    {
+        _tx_ans("dl_ok");
+        _go_to_mode_dl = 1;
     }
 
     else if (_cmd_is(data, "ma"))
@@ -156,7 +163,7 @@ void on_data_rx_as_peripheral
 
 
 static uint8_t only_add_characteristics_once = 0;
-void ble_peripheral_optode_core()
+uint8_t ble_peripheral_optode_core()
 {
     const char * mac = BLE.address().toString().c_str();
     l_i_("[ BLE ] peripheral | optode core start");
@@ -185,9 +192,11 @@ void ble_peripheral_optode_core()
 	BLE.advertise(&_a);
 
 
-    // loop till we receive the _end_of_conf character == '/'
+    // loop till we change the mode of operation
     _tell_connection_but_just_once = 0;
-    _end_of_conf = 0;
+    _go_to_mode_run = 0;
+    _go_to_mode_dl = 0;
+    uint8_t rv;
     while (1)
     {
         if (BLE.connected() && !_tell_connection_but_just_once)
@@ -197,8 +206,14 @@ void ble_peripheral_optode_core()
             _tell_connection_but_just_once = 1;
         }
 
-        if (_end_of_conf)
+        if (_go_to_mode_run)
         {
+            rv = 1;
+            break;
+        }
+        if (_go_to_mode_dl)
+        {
+            rv = 2;
             break;
         }
         delay(1000);
@@ -206,5 +221,6 @@ void ble_peripheral_optode_core()
     BLE.off();
 
 
-    l_i_("[ BLE ] peripheral | optode end configuration");
+    l_i_("[ BLE ] peripheral | optode end configuration, rv = %d", rv);
+    return rv;
 }

@@ -7,7 +7,7 @@
 
 
 
-void ble_peripheral_optode_core();
+uint8_t ble_peripheral_optode_core();
 
 
 

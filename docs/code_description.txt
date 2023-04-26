@@ -5,8 +5,6 @@ motor    --------->  moving arm
 ble_base --------->  wireless
 
 
-tests    --------->  debug motor, ble_base, battery, leds, water sensor
-main     --------->  field operation
-
-
-optode_ble_top --->  runs tests or main 
+optode_ble_top --->  sets motor speed and runs tests or main 
+    tests    ----->  debug motor, ble_base, battery, leds, water sensor
+    main     ----->  AKA autonomous

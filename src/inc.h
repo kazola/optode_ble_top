@@ -11,11 +11,22 @@
 
 
 // stuff for BLE within IRIS scanners
-#define MAC_OPTODE_MINI_1   "2f:b3:cf:49:55:4d"
-#define MAC_OPTODE_MINI_2   "eb:94:21:4a:63:12"
-#define MAC_OPTODE_MINI_3   "fe:7d:29:d8:7d:67"
-#define MAC_OPTODE_MINI_4   "72:51:d2:5f:7f:b3"
-#define MAC_OPTODE_MINI_5   "bf:f0:b0:33:1b:07"
+#define MAC_OPTODE_MINI_1       "2f:b3:cf:49:55:4d"
+#define MAC_OPTODE_MINI_2       "eb:94:21:4a:63:12"
+#define MAC_OPTODE_MINI_3       "fe:7d:29:d8:7d:67"
+#define MAC_OPTODE_MINI_4       "72:51:d2:5f:7f:b3"
+#define MAC_OPTODE_MINI_5       "bf:f0:b0:33:1b:07"
+#define MAC_OPTODE_MINI_6       "4B:45:2D:E9:38:A0"
+#define MAC_OPTODE_MINI_7       "3D:DA:B1:96:FB:5F"
+#define MAC_OPTODE_MINI_8       "8E:74:50:F6:FA:AF"
+#define MAC_OPTODE_MINI_9       "F2:C3:07:C2:FE:7E"
+#define MAC_OPTODE_MINI_10      "9B:38:CD:67:72:79"
+#define MAC_OPTODE_MINI_11      "B9:8D:97:A1:06:A2"  
+#define MAC_OPTODE_MINI_12      "CA:DA:DE:9A:E1:37"  
+#define MAC_OPTODE_MINI_E       "B1:56:CC:26:C4:74"   
+
+
+
 #define MAC_OPTODE_MINI_A   MAC_OPTODE_MINI_3
 #define MAC_OPTODE_MINI_B   MAC_OPTODE_MINI_4
 

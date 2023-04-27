@@ -86,7 +86,21 @@ void on_data_rx_as_peripheral
     // parse incoming commands from laptop or phone
     if (_cmd_is(data, "it"))
     {
-        _tx_ans("inc_time_ok");
+        if (g_v_it == 5)
+        {
+            g_v_it = 15;
+            _tx_ans("15m");
+        }
+        else if (g_v_it == 15)
+        {
+            g_v_it = 30;
+            _tx_ans("30m");
+        }
+        else if (g_v_it == 30)
+        {
+            g_v_it = 5;
+            _tx_ans("5m");
+        }
     }
 
     else if (_cmd_is(data, "ru"))

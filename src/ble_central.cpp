@@ -177,207 +177,6 @@ uint8_t ble_central_test_optode_mini(const char * mac)
 
 
 
-// wifi off, display on, wheel on
-static void _central_pre_mini(BleAddress m, char letter)
-{
-    // required vars
-    uint8_t rv;
-    uint8_t ans[BLE_ANS_LEN] = {0};
-    BlePeerDevice _p;
-    l_e_("[ BLE ] cen | running pre_mini %c", letter);
-
-
-
-     // ---------------
-    // connect to mini
-    // ----------------
-    _p = BLE.connect(m);
-    if (!_p.connected())
-    {
-        l_e_("[ BLE ] cen | failed connecting mini %c", letter);
-        goto MY_END;
-    }
-    l_i_("[ BLE ] cen | connected mini %c", letter);
-    c_r.onDataReceived(_on_data_rx, NULL);
-    _p.getCharacteristicByUUID(c_r, BleUuid(UUID_R));
-    _p.getCharacteristicByUUID(c_w, BleUuid(UUID_W));
-
-
-
-    // --------------------------
-    // ensure mini display is ON
-    // --------------------------
-    BLE_CMD("di");
-    BLE_ANS(500);
-    rv = CK_ANS("di_on", 5);
-    if (!rv)
-    {
-        // try to start the display
-        l_i_("[ BLE ] cen | powering display on mini %c, wait 15 seconds", letter);
-        BLE_CMD("do");
-        BLE_ANS(15000);
-        rv = CK_ANS("do_ok", 5);
-        if (!rv)
-        {
-            l_e_("[ BLE ] cen | no display on mini %c", letter);
-            goto MY_END;
-        }
-
-        BLE_CMD("di");
-        BLE_ANS(500);
-        rv = CK_ANS("di_on", 5);
-        if (!rv)
-        {
-            l_e_("[ BLE ] cen | cannot turn on display on mini %c", letter);
-            goto MY_END;
-        }
-    }
-
-
-
-    // ------------------------
-    // ensure mini wifi is OFF
-    // ------------------------
-    BLE_CMD("wi");
-    BLE_ANS(500);
-    rv = CK_ANS("wi_of", 5);
-    if (!rv)
-    {
-        // try to turn off the wi-fi
-        BLE_CMD("wo");
-        BLE_ANS(4000);
-        rv = CK_ANS("wo_ok", 5);
-        if (!rv)
-        {
-            l_e_("[ BLE ] cen | no wifi on mini %c", letter);
-            goto MY_END;
-        }
-
-        BLE_CMD("wi");
-        BLE_ANS(500);
-        rv = CK_ANS("wi_of", 5);
-        if (!rv)
-        {
-            l_e_("[ BLE ] cen | cannot turn off wi-fi on mini %c", letter);
-            goto MY_END;
-        }
-    }
-
-
-
-    // ------------------------------
-    // toggle ON mini scanner wheel
-    // ------------------------------
-    BLE_CMD("wh");
-    BLE_ANS(2000);
-    rv = CK_ANS("wh_ok", 5);
-    if (!rv)
-    {
-        l_e_("[ BLE ] cen | no wheel on mini %c", letter);
-        goto MY_END;
-    }
-
-
-MY_END:
-    BLE.disconnect(_p);
-    l_i_("[ BLE ] cen | disconnected from mini %c", letter);
-}
-
-
-
-// wheel off, wifi on
-static void _central_post_mini(BleAddress m, char letter)
-{
-    // required vars
-    uint8_t rv;
-    uint8_t ans[BLE_ANS_LEN] = {0};
-    BlePeerDevice _p;
-    l_e_("[ BLE ] cen | running post_mini %c", letter);
-
-
-
-    // ---------------
-    // connect to mini
-    // ----------------
-    _p = BLE.connect(m);
-    if (!_p.connected())
-    {
-        l_e_("[ BLE ] cen | failed connecting mini %c", letter);
-        goto MY_END;
-    }
-    l_i_("[ BLE ] cen | connected mini %c", letter);
-    c_r.onDataReceived(_on_data_rx, NULL);
-    _p.getCharacteristicByUUID(c_r, BleUuid(UUID_R));
-    _p.getCharacteristicByUUID(c_w, BleUuid(UUID_W));
-
-
-
-    // --------------------------
-    // ensure mini display is ON
-    // --------------------------
-    BLE_CMD("di");
-    BLE_ANS(500);
-    rv = CK_ANS("di_on", 5);
-    if (!rv)
-    {
-
-        l_e_("[ BLE ] cen | unexpected display mini %c", letter);
-        goto MY_END;
-    }
-
-
-    // ------------------------------
-    // toggle OFF mini scanner wheel
-    // ------------------------------
-    BLE_CMD("wh");
-    BLE_ANS(500);
-    rv = CK_ANS("wh_ok", 5);
-    if (!rv)
-    {
-        l_e_("[ BLE ] cen | no wheel on mini %c", letter);
-        goto MY_END;
-    }
-
-
-
-    // ------------------------
-    // ensure mini wifi is ON
-    // ------------------------
-    BLE_CMD("wi");
-    BLE_ANS(500);
-    rv = CK_ANS("wi_on", 5);
-    if (!rv)
-    {
-        // try to turn off the wi-fi
-        BLE_CMD("wo");
-        BLE_ANS(4000);
-        rv = CK_ANS("wo_ok", 5);
-        if (!rv)
-        {
-            l_e_("[ BLE ] cen | no wifi on mini %c", letter);
-            goto MY_END;
-        }
-
-        // wifi read again
-        BLE_CMD("wi");
-        BLE_ANS(500);
-        rv = CK_ANS("wi_of", 5);
-        if (!rv)
-        {
-            l_e_("[ BLE ] cen | cannot turn off wi-fi on mini %c", letter);
-            goto MY_END;
-        }
-    }
-
-
-MY_END:
-    BLE.disconnect(_p);
-    l_i_("[ BLE ] cen | disconnected from mini %c", letter);
-
-}
-
-
-
 static uint8_t _iris_power_on_set_scan(BleAddress m, char letter)
 {
     // required vars
@@ -609,6 +408,7 @@ void ble_central_optode_core()
     _iris_power_on_set_scan(_b, 'B');
 
 
+
     // turn on the LED strip
     led_strip_on();
     delay(100);
@@ -633,8 +433,15 @@ void ble_central_optode_core()
 
 
 
+    // use a stopwatch to calculate a whole cycle
+    uint32_t adjust_time = 137 * 1000;
+
+
+
+    // ----------------------------------------
     // insert time for images to be downloaded
-    uint32_t time_to_dl = 300000;
+    // ----------------------------------------
+    uint32_t time_to_dl = (g_v_it * 60 * 1000) - adjust_time;
     const char * s = "[ AUT ] allow %ld seconds to download";
     l_i_(s, time_to_dl / 1000);
     delay(time_to_dl);

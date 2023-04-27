@@ -23,7 +23,7 @@ void run_autonomous()
         uint16_t run_num = 0;
         while (1)
         {
-            ble_central_optode_core_manage_both_optode_minis();
+            ble_central_optode_core();
             l_i_("[ AUT ] run #%d", run_num++);
 
 
@@ -50,7 +50,7 @@ void run_autonomous()
             {
                 l_i_("[ AUT ] boot | going to mode run");
                 BLE.selectAntenna(BleAntennaType::INTERNAL);
-                ble_central_optode_core_manage_both_optode_minis();
+                ble_central_optode_core();
             }
 
             else if (rv == 2)

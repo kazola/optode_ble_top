@@ -589,7 +589,7 @@ MY_END:
 
 
 
-void ble_central_optode_core_manage_both_optode_minis()
+void ble_central_optode_core()
 {
     // activate Bluetooth features
     BLE.on();

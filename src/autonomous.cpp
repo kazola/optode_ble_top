@@ -6,17 +6,17 @@ void run_autonomous()
 {
     l_i_("[ RUN ] AUTONOMOUS");
     l_i_("------------------");
-    l_i_("optode mini A mac %s", MAC_OPTODE_MINI_A);
-    l_i_("optode mini B mac %s", MAC_OPTODE_MINI_B);
+    l_i_("[ AUT ] optode mini A mac %s", MAC_OPTODE_MINI_A);
+    l_i_("[ AUT ] optode mini B mac %s", MAC_OPTODE_MINI_B);
 
 
 
-    #if 0
+    #if 1
         // ---------------------
         // FSM fully automatic
         // ---------------------
         
-        l_i_("[ AUT ] going straight to mode RUN");
+        l_i_("[ AUT ] skip CONF, go straight to mode RUN");
         BLE.selectAntenna(BleAntennaType::INTERNAL);
         
 

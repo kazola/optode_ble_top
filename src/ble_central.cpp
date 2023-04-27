@@ -598,7 +598,7 @@ void ble_central_optode_core()
 
 
 
-    // first thing we do is always reset motor to left
+    // first thing we do, reset motor to left
     l_i_("[ BLE ] cen | motor moving left");
     motor_move_left(10000);
 
@@ -609,10 +609,21 @@ void ble_central_optode_core()
     _iris_power_on_set_scan(_b, 'B');
 
 
+    // turn on the LED strip
+    led_strip_on();
+    delay(100);
+
+
 
     // move the motor towards right
     l_i_("[ BLE ] cen | motor moving right");
     motor_move_right(10000);
+
+
+
+    // turn off the LED strip
+    delay(100);
+    led_strip_off();
 
 
 
@@ -622,7 +633,7 @@ void ble_central_optode_core()
 
 
 
-    // wait some time for images to be downloaded
+    // insert time for images to be downloaded
     uint32_t time_to_dl = 300000;
     const char * s = "[ AUT ] allow %ld seconds to download";
     l_i_(s, time_to_dl / 1000);
@@ -630,7 +641,7 @@ void ble_central_optode_core()
 
 
 
-    // switch off to start as a clean sheet
+    // power off each iris to start as a clean sheet
     _iris_power_off(_a, 'A');
     _iris_power_off(_b, 'B');
 

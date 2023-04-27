@@ -6,6 +6,8 @@ void run_autonomous()
 {
     l_i_("[ RUN ] AUTONOMOUS");
     l_i_("------------------");
+    l_i_("optode mini A mac %s", MAC_OPTODE_MINI_A);
+    l_i_("optode mini B mac %s", MAC_OPTODE_MINI_B);
 
 
 

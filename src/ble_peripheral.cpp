@@ -6,7 +6,7 @@
 
 
 
-void ble_get_name_from_mac(const char * mac, char * name)
+void ble_get_name_from_optode_core_mac(const char * mac, char * name)
 {
     char found = 0;
 
@@ -206,7 +206,7 @@ uint8_t ble_peripheral_optode_core()
 
 
     // try to do even a friendlier name
-    ble_get_name_from_mac(mac, name);
+    ble_get_name_from_optode_core_mac(mac, name);
 
 
     // advertising information

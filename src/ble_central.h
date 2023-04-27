@@ -12,6 +12,10 @@ uint8_t ble_central_test_optode_mini(const char *);
 void ble_central_optode_core_manage_both_optode_minis();
 
 
+const char * ble_get_mini_mac_from_core_mac(char);
+
+
+
 
 
 #endif

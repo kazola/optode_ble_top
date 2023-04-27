@@ -34,8 +34,8 @@
 
 
 // you can touch these 2
-#define MAC_OPTODE_MINI_A   MAC_OPTODE_MINI_3
-#define MAC_OPTODE_MINI_B   MAC_OPTODE_MINI_4
+#define MAC_OPTODE_MINI_A   ble_get_mini_mac_from_core_mac('a')
+#define MAC_OPTODE_MINI_B   ble_get_mini_mac_from_core_mac('b')
 
 
 

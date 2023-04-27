@@ -34,6 +34,48 @@ BleCharacteristic c_w;
 
 
 
+const char * ble_get_mini_mac_from_core_mac(char letter)
+{
+    const char * mac = BLE.address().toString().c_str();
+
+    if (!strncmp(mac, "D7:0E:86:06:96:E5", 17)) 
+    {
+        if (letter == 'a') return MAC_OPTODE_MINI_1;
+        if (letter == 'b') return MAC_OPTODE_MINI_2;
+    }
+    if (!strncmp(mac, "F0:BC:8C:34:15:14", 17)) 
+    {
+        if (letter == 'a') return MAC_OPTODE_MINI_3;
+        if (letter == 'b') return MAC_OPTODE_MINI_4;
+    }
+    if (!strncmp(mac, "C1:59:FA:52:4E:10", 17)) 
+    {
+        if (letter == 'a') return MAC_OPTODE_MINI_5;
+        if (letter == 'b') return MAC_OPTODE_MINI_6;
+    }
+    if (!strncmp(mac, "DD:ED:97:4F:86:4A", 17)) 
+    {
+        if (letter == 'a') return MAC_OPTODE_MINI_7;
+        if (letter == 'b') return MAC_OPTODE_MINI_8;
+    }
+    if (!strncmp(mac, "D9:F2:66:AC:A7:39", 17)) 
+    {
+        if (letter == 'a') return MAC_OPTODE_MINI_9;
+        if (letter == 'b') return MAC_OPTODE_MINI_10;
+    }
+    if (!strncmp(mac, "C9:40:A1:53:69:FB", 17)) 
+    {
+        if (letter == 'a') return MAC_OPTODE_MINI_11;
+        if (letter == 'b') return MAC_OPTODE_MINI_12;
+    }
+    
+    l_e_("[ BLE ] cen | cannot map optode mini mac!");
+    return "";
+}
+
+
+
+
 void ble_central_scan_for_optode_minis(uint8_t * mask)
 {
     uint8_t t = _APP_BLE_SCAN_DURATION_S_;

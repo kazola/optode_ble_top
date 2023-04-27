@@ -2,6 +2,34 @@
 
 
 
+#define OP_CO_NAME_LEN  (10)
+
+
+
+void ble_get_name_from_mac(const char * mac, char * name)
+{
+    char found = 0;
+
+
+    if (!strncmp(mac, "D7:0E:86:06:96:E5", 17)) found = '1';
+    if (!strncmp(mac, "F0:BC:8C:34:15:14", 17)) found = '2';
+    if (!strncmp(mac, "C1:59:FA:52:4E:10", 17)) found = '3';
+    if (!strncmp(mac, "DD:ED:97:4F:86:4A", 17)) found = '4';
+    if (!strncmp(mac, "D9:F2:66:AC:A7:39", 17)) found = '5';
+    if (!strncmp(mac, "C9:40:A1:53:69:FB", 17)) found = '6';
+    if (!strncmp(mac, "E3:04:61:7F:EC:09", 17)) found = '7';
+
+    if (found)
+    {
+        memset(name, 0, OP_CO_NAME_LEN);
+        memcpy((uint8_t *)name, (uint8_t *)"op_co_", 6);
+        name[6] = found;
+    }
+}
+
+
+
+
 static volatile uint8_t _tell_connection_but_just_once;
 void on_data_rx_as_peripheral(const uint8_t* data, size_t len, const BlePeerDevice& peer, void* context);
 const BleUuid serviceUuid("6E400001-B5A3-F393-E0A9-E50E24DCCA9E");
@@ -99,8 +127,8 @@ void on_data_rx_as_peripheral
 
     else if (_cmd_is(data, "mr"))
     {
-        _tx_ans("mr_ok");
         motor_move_right(10000);
+        _tx_ans("mr_ok");
     }
 
     else if (_cmd_is(data, "ll"))
@@ -171,10 +199,14 @@ uint8_t ble_peripheral_optode_core()
 
 
     // name: "op_co_" + last 2 digits of MAC
-    char name[10] = {0};
+    char name[OP_CO_NAME_LEN] = {0};
     memcpy((uint8_t *)name, (uint8_t *)"op_co_", 6);
     name[6] = mac[15];
     name[7] = mac[16];
+
+
+    // try to do even a friendlier name
+    ble_get_name_from_mac(mac, name);
 
 
     // advertising information

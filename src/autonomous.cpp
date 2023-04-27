@@ -36,6 +36,10 @@ void run_autonomous()
         // --------------------------
         while (1)
         {
+            l_i_("[ BLE ] cen | motor moving left");
+            motor_move_left(10000);
+
+
             BLE.selectAntenna(BleAntennaType::EXTERNAL);
             uint8_t rv = ble_peripheral_optode_core();
 

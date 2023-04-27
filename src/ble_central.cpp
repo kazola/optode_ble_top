@@ -581,7 +581,7 @@ void ble_central_optode_core_manage_both_optode_minis()
 
 
     // wait some time for images to be downloaded
-    uint32_t time_to_dl = 30000;
+    uint32_t time_to_dl = 300000;
     const char * s = "[ AUT ] allow %ld seconds to download";
     l_i_(s, time_to_dl / 1000);
     delay(time_to_dl);

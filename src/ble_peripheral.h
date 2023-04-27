@@ -8,6 +8,7 @@
 
 
 uint8_t ble_peripheral_optode_core();
+void ble_get_name_from_mac(const char *, char *);
 
 
 

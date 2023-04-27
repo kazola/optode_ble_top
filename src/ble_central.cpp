@@ -397,8 +397,8 @@ void ble_central_optode_core()
 
 
 
-    // first thing we do, reset motor to left
-    l_i_("[ BLE ] cen | motor moving left");
+    // reset motor to left
+    l_i_("[ BLE ] cen | inter-run, motor moving left");
     motor_move_left(10000);
 
 

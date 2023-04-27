@@ -10,6 +10,11 @@ void run_autonomous()
     l_i_("[ AUT ] optode mini B mac %s", MAC_OPTODE_MINI_B);
 
 
+    // ensure we are at leftmost motor position at boot
+    l_i_("[ AUT ] cen | boot: motor moving left");
+    motor_move_left(10000);
+
+
     #if 1
         l_i_("[ AUT ] starting with mode CONF");
         BLE.selectAntenna(BleAntennaType::EXTERNAL);

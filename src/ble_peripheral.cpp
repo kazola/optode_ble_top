@@ -107,11 +107,11 @@ void on_data_rx_as_peripheral
         g_sleep_wifi ^= 1;
         if (g_sleep_wifi == 0)
         {
-            _tx_ans("sw_on");
+            _tx_ans("sw_off");
         }
         else
         {
-            _tx_ans("sw_off");
+            _tx_ans("sw_on");
         }
     }
 

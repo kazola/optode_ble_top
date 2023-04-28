@@ -1,8 +1,9 @@
-at the side vertical bar, press the icon
+at the laptop's screen side vertical bar, press the icon
 which is like a rhombus, probably the last one
 it will open a tab "welcome to particle workbench"
 
 
+at the particle Argon board, 
 press both buttons "mode" and "reset"
 at the same time and keep them hold
 until the LED is static bright white
@@ -15,4 +16,5 @@ release "mode" button
 
 
 now you can flash using "local flash"
+at the rightmost column under "development workflow / flash"
 in the tab "welcome to particle workbench"

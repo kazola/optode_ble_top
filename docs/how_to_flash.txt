@@ -1,20 +1,20 @@
 at the laptop's screen side vertical bar, press the icon
-which is like a rhombus, probably the last one
+shaped like a rhombus, probably the last one
 it will open a tab "welcome to particle workbench"
 
 
-at the particle Argon board, 
+connect via USB a particle Argon board, 
 press both buttons "mode" and "reset"
-at the same time and keep them hold
+at the same time and keep them pressed
 until the LED is static bright white
 
 
-keep "mode" button pressed, release "reset" button
+keep "mode" button pressed but release "reset" button
 LED will start blinking purple (blue + red)
 keep "mode" button pressed until LED blinks yellow
-release "mode" button
+when so, release "mode" button
 
 
-now you can flash using "local flash"
+now you can flash the optode_core code using "local flash"
 at the rightmost column under "development workflow / flash"
 in the tab "welcome to particle workbench"

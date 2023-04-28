@@ -14,7 +14,8 @@ void motor_set_resolution(uint8_t);
 void motor_pins_irq_configure();
 int is_motor_left_limit_hit();
 int is_motor_right_limit_hit();
-
+void motor_sleep();
+void motor_awake();
 
 
 #endif

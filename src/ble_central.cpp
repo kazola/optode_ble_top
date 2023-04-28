@@ -302,7 +302,7 @@ static uint8_t _iris_unset_scan_wifi_on(BleAddress m, char letter)
     // ---------------
     // switch on wifi
     // ---------------
-    if (g_sleep_wifi == 0)
+    if (g_wifi_while_sleep == 0)
     {
         l_i_("[ BLE ] cen | flag sleep_wifi is OFF, not activating it");
     }
@@ -407,7 +407,7 @@ void ble_central_optode_core()
 
     // reset motor to left
     l_i_("[ BLE ] cen | inter-run, motor moving left");
-    motor_move_left(10000);
+    motor_move_left(12000);
 
 
 
@@ -425,7 +425,7 @@ void ble_central_optode_core()
 
     // move the motor towards right
     l_i_("[ BLE ] cen | motor moving right");
-    motor_move_right(10000);
+    motor_move_right(12000);
 
 
 
@@ -450,20 +450,23 @@ void ble_central_optode_core()
 
 
     // order matters, always power off scanners to start next run clean
-    if (g_sleep_wifi)
+    if (g_wifi_while_sleep)
     {
-        const char * s = "[ AUT ] allow %ld seconds to download files";
+        const char * s = "[ BLE ] cen | allow %ld seconds to download files";
         l_i_(s, time_to_dl / 1000);
         delay(time_to_dl);
+
+        l_i_("[ BLE ] cen | powering off irises");
         _iris_power_off(_a, 'A');
         _iris_power_off(_b, 'B');
     }
     else
     {
-        const char * s = "[ AUT ] allow %ld seconds to save power";
-        l_i_(s, time_to_dl / 1000);
+        l_i_("[ BLE ] cen | powering off irises");
         _iris_power_off(_a, 'A');
         _iris_power_off(_b, 'B');
+        const char * s = "[ BLE ] cen | allow %ld seconds to save power";
+        l_i_(s, time_to_dl / 1000);
         delay(time_to_dl);
     }
 

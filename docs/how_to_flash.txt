@@ -1,0 +1,17 @@
+in the side vertical bar, press the icon
+which is like a romboid, probably the last one
+it will open a tab "welcome to particle workbench"
+
+
+press both buttons "mode" and "reset"
+at the same time and keep them hold
+until the LED is static bright white
+
+
+keep "mode" button pressed, release "reset" button
+LED will start blinking purple
+keep "mode" button pressed until LED blinks yellow
+
+
+now you can flash using "local flash"
+in the tab "welcome to particle workbench"

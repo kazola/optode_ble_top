@@ -121,3 +121,17 @@ int is_motor_right_limit_hit()
 {
     return !_dR_(PIN_MOTOR_LIMIT_RIGHT_IN);
 }
+
+
+
+// these do not seem to do much
+void motor_sleep()
+{
+    _dW_(PIN_MOTOR_SLEEP_OUT, 0);
+}
+
+
+void motor_awake()
+{
+    _dW_(PIN_MOTOR_SLEEP_OUT, 1);
+}

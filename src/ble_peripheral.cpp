@@ -104,8 +104,8 @@ void on_data_rx_as_peripheral
 
     else if (_cmd_is(data, "sw"))
     {
-        g_sleep_wifi ^= 1;
-        if (g_sleep_wifi == 0)
+        g_wifi_while_sleep ^= 1;
+        if (g_wifi_while_sleep == 0)
         {
             _tx_ans("sw_off");
         }
@@ -214,8 +214,7 @@ static uint8_t only_add_characteristics_once = 0;
 void ble_peripheral_optode_core()
 {
     const char * mac = BLE.address().toString().c_str();
-    l_i_("[ BLE ] per | optode core start");
-    l_i_("[ BLE ] per | optode core MAC @ = %s", mac);
+    l_i_("[ BLE ] per | core MAC @ = %s", mac);
 
 
     // name: "op_co_" + last 2 digits of MAC

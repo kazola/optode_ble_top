@@ -18,3 +18,7 @@ when so, release "mode" button
 now you can flash the optode_core code using "local flash"
 at the rightmost column under "development workflow / flash"
 in the tab "welcome to particle workbench"
+
+
+it will show a "flashing" message, keep connected
+until it stops blinking yellow and is back to white

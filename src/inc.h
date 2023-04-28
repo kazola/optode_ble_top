@@ -109,6 +109,7 @@ extern BleCharacteristic c_w;
 
 
 extern uint8_t g_v_it;
+extern uint8_t g_sleep_wifi;
 
 
 

@@ -10,11 +10,16 @@ void run_autonomous()
     l_i_("[ AUT ] optode mini B mac %s", MAC_OPTODE_MINI_B);
 
 
-    // ensure we are at leftmost motor position at boot
+
+    // ensure we boot at leftmost motor position
     l_i_("[ AUT ] cen | boot: motor moving left");
     motor_move_left(10000);
 
 
+
+    // --------------------------------------------
+    // upon boot, does core accept commands or not
+    // --------------------------------------------
     #if 1
         l_i_("[ AUT ] starting with mode CONF");
         BLE.selectAntenna(BleAntennaType::EXTERNAL);
@@ -23,7 +28,8 @@ void run_autonomous()
     
 
     // banner mode RUN
-    l_i_("[ AUT ] now going to mode RUN, it = %dm", g_v_it);
+    const char * s = "[ AUT ] now going to mode RUN, it = %dm, sw %d";
+    l_i_(s, g_v_it, g_sleep_wifi);
     BLE.selectAntenna(BleAntennaType::INTERNAL);
     uint16_t run_num = 0;
 

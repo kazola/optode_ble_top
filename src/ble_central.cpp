@@ -292,7 +292,7 @@ static uint8_t _iris_unset_scan_wifi_on(BleAddress m, char letter)
 
 
     // ---------------------------------------------------
-    // leave some time for image to get saved to SD card
+    // leave some time for image to get SAVE to SD CARD
     // ---------------------------------------------------
     l_e_("[ BLE ] cen | saving images at mini %c", letter);
     delay(10000);
@@ -302,24 +302,32 @@ static uint8_t _iris_unset_scan_wifi_on(BleAddress m, char letter)
     // ---------------
     // switch on wifi
     // ---------------
-    BLE_CMD("wo");
-    BLE_ANS(2000);
-    rv = CK_ANS("wo_ok", 5);
-    if (!rv)
+    if (g_sleep_wifi == 0)
     {
-        l_e_("[ BLE ] cen | no wifi at mini %c", letter);
-        rv = 3;
-        goto MY_END;
+        l_i_("[ BLE ] cen | flag sleep_wifi is OFF, not activating it");
     }
-     BLE_CMD("wi");
-     BLE_ANS(500);
-     rv = CK_ANS("wi_on", 5);
-    if (!rv)
+    else
     {
-        l_e_("[ BLE ] cen | cannot turn ON wifi at mini %c", letter);
-        rv = 4;
-        goto MY_END;
+        BLE_CMD("wo");
+        BLE_ANS(2000);
+        rv = CK_ANS("wo_ok", 5);
+        if (!rv)
+        {
+            l_e_("[ BLE ] cen | no wifi at mini %c", letter);
+            rv = 3;
+            goto MY_END;
+        }
+        BLE_CMD("wi");
+        BLE_ANS(500);
+        rv = CK_ANS("wi_on", 5);
+        if (!rv)
+        {
+            l_e_("[ BLE ] cen | cannot turn ON wifi at mini %c", letter);
+            rv = 4;
+            goto MY_END;
+        }
     }
+
 
 
 MY_END:
@@ -427,30 +435,37 @@ void ble_central_optode_core()
 
 
 
-    // make iris stop scanning and turn on wifi
+    // make iris stop scanning, which saves to SD, and turn on wifi
     _iris_unset_scan_wifi_on(_a, 'A');
     _iris_unset_scan_wifi_on(_b, 'B');
 
 
 
-    // use a stopwatch to calculate a whole cycle
-    uint32_t adjust_time = 137 * 1000;
+    // ------------------------------------------
+    // calculate time to sleep in this RUN cycle
+    // ------------------------------------------
+    uint32_t adjust_cycle_time = 137 * 1000;
+    uint32_t time_to_dl = (g_v_it * 60 * 1000) - adjust_cycle_time;
 
 
 
-    // ----------------------------------------
-    // insert time for images to be downloaded
-    // ----------------------------------------
-    uint32_t time_to_dl = (g_v_it * 60 * 1000) - adjust_time;
-    const char * s = "[ AUT ] allow %ld seconds to download";
-    l_i_(s, time_to_dl / 1000);
-    delay(time_to_dl);
-
-
-
-    // power off each iris to start as a clean sheet
-    _iris_power_off(_a, 'A');
-    _iris_power_off(_b, 'B');
+    // order matters, always power off scanners to start next run clean
+    if (g_sleep_wifi)
+    {
+        const char * s = "[ AUT ] allow %ld seconds to download files";
+        l_i_(s, time_to_dl / 1000);
+        delay(time_to_dl);
+        _iris_power_off(_a, 'A');
+        _iris_power_off(_b, 'B');
+    }
+    else
+    {
+        const char * s = "[ AUT ] allow %ld seconds to save power";
+        l_i_(s, time_to_dl / 1000);
+        _iris_power_off(_a, 'A');
+        _iris_power_off(_b, 'B');
+        delay(time_to_dl);
+    }
 
 
 

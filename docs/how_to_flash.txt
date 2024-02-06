@@ -1,14 +1,21 @@
+open "vscode" application
+ensure you have a working internet connection
+
 at the laptop's screen side vertical bar, press the icon
 shaped like a rhombus, probably the last one
 it will open a tab "welcome to particle workbench"
 
 
-connect via USB a particle Argon board, 
+connect via USB a particle Argon device, 
+better remove it from the big green board
+
+
 press both buttons "mode" and "reset"
 at the same time and keep them pressed
 until the LED is static bright white
 
 
+"mode" is the button just below the connector with 2 small rows of pins
 keep "mode" button pressed but release "reset" button
 LED will start blinking purple (blue + red)
 keep "mode" button pressed until LED blinks yellow
@@ -18,6 +25,10 @@ when so, release "mode" button
 now you can flash the optode_core code using "local flash"
 at the rightmost column under "development workflow / flash"
 in the tab "welcome to particle workbench"
+
+
+the relationship between brain and a pair of optodes is in
+files "docs/macs_co_op.txt", "ble_central.cpp" and "inc.h"
 
 
 it will show a "flashing" message, keep connected

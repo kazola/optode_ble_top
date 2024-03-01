@@ -8,3 +8,7 @@ ble_base --------->  wireless
 optode_ble_top --->  sets motor speed and runs tests or main 
     tests    ----->  debug motor, ble_base, battery, leds, water sensor
     main     ----->  AKA autonomous
+
+
+the relationship between brain and a pair of optodes is in
+files "docs/macs_co_op.txt", "ble_central.cpp" and "inc.h"

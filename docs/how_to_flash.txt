@@ -1,35 +1,48 @@
-open "vscode" application
-ensure you have a working internet connection
+Hi Zoe,
 
-at the laptop's screen side vertical bar, press the icon
+
+Did not find the charger. Please re-check that I did not forget it at MBL, my office or yours.
+I will give you one of mine meanwhile.
+Instructions of what we talked today come next.
+I highlight in blue button names or things you need to type
+This is longer to explain than to do, you will get the hang of it very fast
+And if you get stuck I can help remotely or come to you
+
+
+INSTRUCTIONS
+-----------------------
+
+modify code as you wish in editor VScode (desktop shortcut called "code optode core")
+at the laptop's screen left side vertical bar, press the icon
 shaped like a rhombus, probably the last one
 it will open a tab "welcome to particle workbench"
+press the "local compile" button once done
+check the message that says COMPILED SUCCESSFULLY
+this will create a file optode_ble_top.bin that we will flash later
 
 
-connect via USB a particle Argon device, 
-better remove it from the big green board
+remove black board from optode
+connect via USB
+go to the terminal (desktop shortcut called "flash optode core") and type
+particle identify
+     (annotate device id number == dev_id)
 
 
-press both buttons "mode" and "reset"
-at the same time and keep them pressed
-until the LED is static bright white
+do the LED sequence buttons so they flash yellow
+go to the terminal again (same window works fine) and type
+cd \users\kaz\git\optode_ble_top\target\3.3.0\argon
+cd means "change directory" you only need to do this once
 
 
-"mode" is the button just below the connector with 2 small rows of pins
-keep "mode" button pressed but release "reset" button
-LED will start blinking purple (blue + red)
-keep "mode" button pressed until LED blinks yellow
-when so, release "mode" button
+particle flash --local dev_id optode_ble_top.bin
+  (replace dev_id with the one obtained in first instruction)
 
 
-now you can flash the optode_core code using "local flash"
-at the rightmost column under "development workflow / flash"
-in the tab "welcome to particle workbench"
+You don't need to particle identify every time, just when you change black board
+If you keep this terminal window open, after every code change
+you only need to compile and flash
 
 
-the relationship between brain and a pair of optodes is in
-files "docs/macs_co_op.txt", "ble_central.cpp" and "inc.h"
-
-
-it will show a "flashing" message, keep connected
-until it stops blinking yellow and is back to white
+Put the black board back in the optode
+Maybe this procedure also works withouth removing the black board, I don't know, feel free to try
+Board #4 seems to work, its ID is e00fce6884954b8fd6481090 but use it as last resource

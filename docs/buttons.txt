@@ -1,0 +1,14 @@
+press both buttons "mode" and "reset"
+at the same time and keep them pressed
+until the LED is static bright white
+
+
+"mode" is the button just below the connector with 2 small rows of pins
+keep "mode" button pressed but release "reset" button
+LED will start blinking purple (blue + red)
+keep "mode" button pressed until LED blinks yellow
+when so, release "mode" button
+
+
+it will show a "flashing" message, keep connected
+until it stops blinking yellow and is back to white
